@@ -1,0 +1,91 @@
+.pozornica {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: min(78svh, 46rem);
+}
+
+/* Oreol kao svetlo stomatološke lampe: beo mantil se na njemu jasno odvaja
+   od bele pozadine strane. */
+.oreol {
+  position: absolute;
+  inset: 3% 0 9%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(210 225 246 / 95%) 0%,
+    rgb(222 233 249 / 72%) 42%,
+    rgb(234 241 251 / 30%) 72%,
+    rgb(240 245 252 / 0%) 100%
+  );
+}
+
+.oreol::before,
+.oreol::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgb(14 98 224 / 11%);
+}
+
+.oreol::before {
+  inset: 10%;
+}
+
+.oreol::after {
+  inset: 22%;
+  border-color: rgb(14 98 224 / 7%);
+}
+
+.platno {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms var(--ulaz);
+}
+
+.spremno {
+  opacity: 1;
+}
+
+/* --- kartica bez WebGL-a -------------------------------------------------- */
+
+.rezerva {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(62%, 17rem);
+  padding: 1rem 1rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgb(255 255 255 / 90%);
+  background: linear-gradient(180deg, #fff, #eef4fc);
+  box-shadow: var(--senka-3);
+  text-align: center;
+  transform: translate(-50%, -50%) rotate(-3deg);
+}
+
+.rezervaSlika {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #e9f0fa, #d3e1f4);
+  overflow: hidden;
+}
+
+.rezervaSlika img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rezervaIme {
+  margin-top: 0.85rem;
+  color: var(--teget);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.rezervaTitula {
+  color: var(--plava-tamna);
+  font-size: var(--f-najsitnije);
+  font-weight: 600;
+}
