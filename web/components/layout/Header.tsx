@@ -38,8 +38,8 @@ type Geometrija = {
 };
 
 const VEZE = [
-  { href: "/#aplikacija", tekst: "Aplikacija", opis: "Kako izgleda i šta nudi" },
-  { href: "/o-autoru", tekst: "O autoru", opis: "Stomatolog koji je došao na ideju" },
+  { href: "/#aplikacija", tekst: "Aplikacija" },
+  { href: "/o-autoru", tekst: "O autoru" },
 ];
 
 // Boje ivica drške od vrha do dna strane. Tekst stoji na matiranoj sredini,
@@ -591,10 +591,7 @@ export default function Header() {
                       <span className={stil.meniZnak} aria-hidden="true">
                         {i === 0 ? <ZnakTelefona /> : <ZnakKartice />}
                       </span>
-                      <span className={stil.meniTekst}>
-                        {veza.tekst}
-                        <small>{veza.opis}</small>
-                      </span>
+                      <span className={stil.meniTekst}>{veza.tekst}</span>
                       <svg className={stil.meniStrelica} viewBox="0 0 24 24" aria-hidden="true">
                         <path d="m9 6 6 6-6 6" />
                       </svg>

@@ -388,17 +388,10 @@
 }
 
 .meniTekst {
-  display: grid;
   flex: 1;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.25;
-}
-
-.meniTekst small {
-  color: var(--prigusen);
-  font-size: 0.8125rem;
-  font-weight: 500;
 }
 
 .meniVeza[data-aktivna="true"] .meniTekst {
