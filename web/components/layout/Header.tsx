@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
 import stil from "./Header.module.css";
 
 /**
@@ -16,6 +17,9 @@ import stil from "./Header.module.css";
  * daju oblinu. Silueta se računa iz stvarne širine, pa se krajevi nikad ne
  * razvlače. Slojevi sa odsjajima se crtaju jednom; na skrol se menjaju samo
  * boja ivica i položaj odsjaja koji klizi duž drške.
+ *
+ * Na telefonu je četkica niža i u jednom redu, a veze se otvaraju iz dugmeta
+ * na vratu četkice.
  */
 
 type Geometrija = {
@@ -34,8 +38,8 @@ type Geometrija = {
 };
 
 const VEZE = [
-  { href: "/#aplikacija", tekst: "Aplikacija" },
-  { href: "/o-autoru", tekst: "O autoru" },
+  { href: "/#aplikacija", tekst: "Aplikacija", opis: "Kako izgleda i šta nudi" },
+  { href: "/o-autoru", tekst: "O autoru", opis: "Stomatolog koji je došao na ideju" },
 ];
 
 // Boje ivica drške od vrha do dna strane. Tekst stoji na matiranoj sredini,
@@ -60,7 +64,10 @@ function bojaZa(deo: number) {
 function geometrija(W: number): Geometrija {
   const kompaktno = W < 640;
   if (kompaktno) {
-    return { W, H: 88, y0: 64, bw: 122, hb: 42, tl: 20, hn: 22, hw: 150, hh: 28, cekinje: 13, pastaH: 36, kompaktno };
+    // na telefonu: jedan red, niža drška; na najužim ekranima kraća i glava
+    const bw = Math.min(116, Math.round(W * 0.33));
+    const hw = Math.min(128, Math.round(W * 0.37));
+    return { W, H: 62, y0: 41, bw, hb: 34, tl: 16, hn: 16, hw, hh: 24, cekinje: 10, pastaH: 30, kompaktno };
   }
   // Na srednjim širinama drška i glava su malo kraće, da veze stanu u vrat.
   const usko = W < 900;
@@ -142,6 +149,17 @@ export default function Header() {
   const [naKraju, postaviNaKraju] = useState(false);
   const putanja = (usePathname() ?? "/").replace(/(.)\/$/, "$1");
 
+  // Aktivna veza: „O autoru" na svojoj strani, „Aplikacija" dok je njena
+  // sekcija na ekranu. Na njoj miruje staklena pilula.
+  const [uSekciji, postaviUSekciji] = useState(false);
+  const aktivna = putanja === "/o-autoru" ? 1 : putanja === "/" && uSekciji ? 0 : -1;
+  const [pokazana, postaviPokazanu] = useState<number | null>(null);
+  const vezeRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [pilula, postaviPilulu] = useState({ x: 0, w: 0, vidljiva: false, skok: true });
+  const [meni, postaviMeni] = useState(false);
+  const meniRef = useRef<HTMLElement>(null);
+  const dugmeRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     const element = okvir.current;
     if (!element) return;
@@ -213,6 +231,58 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    if (putanja !== "/") return;
+    const sekcija = document.getElementById("aplikacija");
+    if (!sekcija) return;
+    const posmatrac = new IntersectionObserver(([unos]) => postaviUSekciji(unos.isIntersecting), {
+      rootMargin: "-45% 0px -45% 0px",
+    });
+    posmatrac.observe(sekcija);
+    return () => {
+      posmatrac.disconnect();
+      postaviUSekciji(false);
+    };
+  }, [putanja]);
+
+  // Pilula ide na vezu nad kojom je miš (ili fokus), a inače na aktivnu vezu.
+  const cilj = pokazana ?? (aktivna >= 0 ? aktivna : null);
+  useEffect(() => {
+    const veza = cilj === null ? null : vezeRef.current[cilj];
+    if (!veza) {
+      postaviPilulu((p) => ({ ...p, vidljiva: false }));
+      return;
+    }
+    postaviPilulu((p) => ({ x: veza.offsetLeft, w: veza.offsetWidth, vidljiva: true, skok: !p.vidljiva }));
+  }, [cilj, W]);
+  useEffect(() => {
+    if (!pilula.skok || !pilula.vidljiva) return;
+    const id = requestAnimationFrame(() => postaviPilulu((p) => ({ ...p, skok: false })));
+    return () => cancelAnimationFrame(id);
+  }, [pilula.skok, pilula.vidljiva]);
+
+  // Meni na telefonu se zatvara promenom strane, tasterom Esc i dodirom van njega.
+  useEffect(() => postaviMeni(false), [putanja]);
+  useEffect(() => {
+    if (!meni) return;
+    const naTaster = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      postaviMeni(false);
+      dugmeRef.current?.focus();
+    };
+    const naDodir = (e: PointerEvent) => {
+      const meta = e.target as Node;
+      if (meniRef.current?.contains(meta) || dugmeRef.current?.contains(meta)) return;
+      postaviMeni(false);
+    };
+    document.addEventListener("keydown", naTaster);
+    document.addEventListener("pointerdown", naDodir);
+    return () => {
+      document.removeEventListener("keydown", naTaster);
+      document.removeEventListener("pointerdown", naDodir);
+    };
+  }, [meni]);
+
   const g = useMemo(() => geometrija(W), [W]);
   const telo = useMemo(() => putanjaTela(g), [g]);
   const cekinje = useMemo(() => cuperci(g), [g]);
@@ -225,9 +295,9 @@ export default function Header() {
   const pastaVrh = g.y0 - g.hh / 2 - g.cekinje - g.pastaH + 9;
 
   // Veze staju u vrat tek kad je dovoljno dug; inače stoje iznad drške.
+  // Na telefonu su u meniju koji se otvara dugmetom na vratu.
   const vezeUVratu = !k && vratKraj - vratPocetak > 250;
-  // Na najužim telefonima ostaje samo „O autoru" — do aplikacije se stiže skrolom.
-  const veze = W < 330 ? VEZE.filter((v) => v.href !== "/#aplikacija") : VEZE;
+  const unutrasnjiUmetak = k ? 10 : 14;
 
   return (
     <header className={stil.traka}>
@@ -249,10 +319,10 @@ export default function Header() {
               <path d={telo} />
             </clipPath>
             <filter id="cetkica-senka" x="-5%" y="-60%" width="110%" height="240%">
-              <feGaussianBlur stdDeviation={k ? 6 : 8} />
+              <feGaussianBlur stdDeviation={k ? 4 : 8} />
             </filter>
             <filter id="cetkica-senka-blizu" x="-5%" y="-60%" width="110%" height="240%">
-              <feGaussianBlur stdDeviation="2.5" />
+              <feGaussianBlur stdDeviation={k ? 1.8 : 2.5} />
             </filter>
             {/* Kroz providnu dršku senka se vidi samo slabo. */}
             <mask
@@ -277,12 +347,17 @@ export default function Header() {
           </defs>
 
           <g mask="url(#cetkica-van)">
-            <path d={telo} className={stil.senka} filter="url(#cetkica-senka)" transform="translate(0 11)" />
+            <path
+              d={telo}
+              className={stil.senka}
+              filter="url(#cetkica-senka)"
+              transform={`translate(0 ${k ? 5 : 11})`}
+            />
             <path
               d={telo}
               className={stil.senkaBlizu}
               filter="url(#cetkica-senka-blizu)"
-              transform="translate(0 4)"
+              transform={`translate(0 ${k ? 2 : 4})`}
             />
           </g>
 
@@ -366,7 +441,7 @@ export default function Header() {
 
           {/* sitna rebra za palac na prelazu drške u vrat */}
           <g className={stil.rebra}>
-            {[0, 1, 2].map((i) => {
+            {(k ? [] : [0, 1, 2]).map((i) => {
               const x = vratPocetak + 10 + i * (k ? 6 : 8);
               return (
                 <g key={i}>
@@ -467,40 +542,112 @@ export default function Header() {
           className={stil.guma}
           aria-label="DentifID, početna strana"
           style={{
-            left: 12,
-            top: g.y0 - (g.hb - 14) / 2,
-            width: g.bw - 34,
-            height: g.hb - 14,
+            left: k ? 9 : 12,
+            top: g.y0 - (g.hb - unutrasnjiUmetak) / 2,
+            width: g.bw - (k ? 26 : 34),
+            height: g.hb - unutrasnjiUmetak,
           }}
         >
           <img src="/svg/logo.svg" width={284} height={97} alt="DentifID" />
         </Link>
 
-        <nav
-          className={`${stil.veze} ${vezeUVratu ? "" : stil.vezeIznad}`}
-          aria-label="Glavna navigacija"
-          style={
-            vezeUVratu
-              ? {
-                  left: vratPocetak + 34,
-                  width: vratKraj - vratPocetak - 40,
-                  top: g.y0 - g.hn / 2 + 3,
-                  height: g.hn - 6,
-                }
-              : { left: 8, top: k ? 6 : 8, height: k ? 28 : 30 }
-          }
-        >
-          {veze.map((veza) => (
-            <Link
-              key={veza.href}
-              href={veza.href}
-              className={stil.veza}
-              aria-current={putanja === veza.href ? "page" : undefined}
+        {k ? (
+          <>
+            <button
+              ref={dugmeRef}
+              type="button"
+              className={`${stil.meniDugme} ${meni ? stil.meniOtvoren : ""}`}
+              aria-label={meni ? "Zatvori meni" : "Otvori meni"}
+              aria-expanded={meni}
+              aria-controls="meni-telefon"
+              onClick={() => postaviMeni((m) => !m)}
+              style={{ left: vratPocetak + (vratKraj - vratPocetak) / 2 - 16, top: g.y0 - 16 }}
             >
-              {veza.tekst}
-            </Link>
-          ))}
-        </nav>
+              <span />
+              <span />
+            </button>
+            <AnimatePresence>
+              {meni ? (
+                <motion.nav
+                  ref={meniRef}
+                  id="meni-telefon"
+                  className={stil.meni}
+                  aria-label="Glavna navigacija"
+                  style={{ top: g.H + 8 }}
+                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                  transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
+                >
+                  {VEZE.map((veza, i) => (
+                    <Link
+                      key={veza.href}
+                      href={veza.href}
+                      className={stil.meniVeza}
+                      data-aktivna={aktivna === i}
+                      aria-current={putanja === veza.href ? "page" : undefined}
+                      onClick={() => postaviMeni(false)}
+                    >
+                      <span className={stil.meniZnak} aria-hidden="true">
+                        {i === 0 ? <ZnakTelefona /> : <ZnakKartice />}
+                      </span>
+                      <span className={stil.meniTekst}>
+                        {veza.tekst}
+                        <small>{veza.opis}</small>
+                      </span>
+                      <svg className={stil.meniStrelica} viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="m9 6 6 6-6 6" />
+                      </svg>
+                    </Link>
+                  ))}
+                </motion.nav>
+              ) : null}
+            </AnimatePresence>
+          </>
+        ) : (
+          <nav
+            className={`${stil.veze} ${vezeUVratu ? "" : stil.vezeIznad}`}
+            aria-label="Glavna navigacija"
+            onPointerLeave={() => postaviPokazanu(null)}
+            style={
+              vezeUVratu
+                ? {
+                    left: vratPocetak + 34,
+                    width: vratKraj - vratPocetak - 40,
+                    top: g.y0 - g.hn / 2 + 3,
+                    height: g.hn - 6,
+                  }
+                : { left: 8, top: 8, height: 30 }
+            }
+          >
+            <span
+              className={`${stil.pilula} ${pilula.skok ? stil.pilulaSkok : ""}`}
+              aria-hidden="true"
+              style={{
+                width: pilula.w,
+                transform: `translateX(${pilula.x}px)`,
+                opacity: pilula.vidljiva ? 1 : 0,
+              }}
+            />
+            {VEZE.map((veza, i) => (
+              <Link
+                key={veza.href}
+                ref={(el) => {
+                  vezeRef.current[i] = el;
+                }}
+                href={veza.href}
+                className={stil.veza}
+                data-istaknuta={cilj === i}
+                aria-current={putanja === veza.href ? "page" : undefined}
+                onPointerEnter={() => postaviPokazanu(i)}
+                onFocus={() => postaviPokazanu(i)}
+                onBlur={() => postaviPokazanu(null)}
+              >
+                {veza.tekst}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         {/* pasta na čekinjama je dugme za preuzimanje */}
         <a
@@ -547,5 +694,26 @@ export default function Header() {
         </a>
       </div>
     </header>
+  );
+}
+
+function ZnakTelefona() {
+  return (
+    <svg viewBox="0 0 24 24">
+      <rect x="6.5" y="2.5" width="11" height="19" rx="2.6" />
+      <path d="M10.5 18.5h3" />
+    </svg>
+  );
+}
+
+/** Mala identifikaciona kartica, kao ona na mantilu. */
+function ZnakKartice() {
+  return (
+    <svg viewBox="0 0 24 24">
+      <rect x="5" y="4.5" width="14" height="17" rx="2.4" />
+      <path d="M10 2.5h4v3.5h-4z" />
+      <circle cx="12" cy="11" r="2.3" />
+      <path d="M8.6 17.5c.7-1.8 2-2.7 3.4-2.7s2.7.9 3.4 2.7" />
+    </svg>
   );
 }

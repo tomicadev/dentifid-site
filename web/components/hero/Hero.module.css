@@ -3,6 +3,13 @@
   padding-block: clamp(8.75rem, 13vw, 11rem) clamp(3rem, 7vw, 5rem);
 }
 
+/* Na telefonu je zaglavlje niže, pa naslov može da krene više. */
+@media (max-width: 40rem) {
+  .hero {
+    padding-top: 6.5rem;
+  }
+}
+
 .mreza {
   display: grid;
   gap: clamp(3rem, 6vw, 4rem);
