@@ -7,8 +7,8 @@ type Props = {
 };
 
 /**
- * Lice identifikacione kartice. Napravljeno je u HTML-u i samo postavljeno u
- * prostor, pa slika, ime i titula ostaju oštri kao ostatak strane.
+ * Identifikaciona kartica u HTML-u, za pregledače bez WebGL-a. U 3D sceni se
+ * isti raspored crta kao tekstura (`napraviLiceKartice`).
  */
 export default function KarticaLice({ ime, titula, slika }: Props) {
   return (

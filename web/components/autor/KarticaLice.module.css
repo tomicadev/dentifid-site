@@ -1,4 +1,4 @@
-/* Kartica je 320 × 480 px; u prostoru to je 0,9 × 1,35 jedinica. */
+/* Kartica je 320 × 480 px, isti raspored kao lice kartice u 3D sceni. */
 
 .kartica {
   position: relative;

@@ -320,3 +320,151 @@ export function teksturaUnutrasnjosti() {
   ctx.fillRect(0, 0, W, H);
   return tekstura(c);
 }
+
+function ucitajSliku(izvor: string) {
+  return new Promise<HTMLImageElement | undefined>((resolve) => {
+    const slika = new Image();
+    slika.decoding = "async";
+    slika.onload = () => resolve(slika);
+    slika.onerror = () => resolve(undefined);
+    slika.src = izvor;
+  });
+}
+
+/**
+ * Lice identifikacione kartice, nacrtano u trostrukoj rezoluciji rasporeda
+ * 320 × 480, da slova ostanu oštra i kad je kartica mala. Crta se u samoj
+ * sceni, pa se lice i pločica pomeraju kao jedno, u svakom pregledaču.
+ */
+export function napraviLiceKartice(ime: string, titula: string, slika?: string) {
+  const k = 3;
+  const W = 320 * k;
+  const H = 480 * k;
+  const { c, ctx } = platno(W, H);
+  const t = tekstura(c);
+  t.anisotropy = 16;
+
+  const nacrtaj = (logo?: HTMLImageElement, foto?: HTMLImageElement) => {
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(0, 0, W, H, 20 * k);
+    ctx.clip();
+
+    const pozadina = ctx.createLinearGradient(0, 0, 0, H);
+    pozadina.addColorStop(0, "#ffffff");
+    pozadina.addColorStop(1, "#f1f5fb");
+    ctx.fillStyle = pozadina;
+    ctx.fillRect(0, 0, W, H);
+
+    // prorez za kopču
+    ctx.fillStyle = "#dfe6f0";
+    ctx.beginPath();
+    ctx.roundRect(W / 2 - 28 * k, 12 * k, 56 * k, 10 * k, 6 * k);
+    ctx.fill();
+    const prorez = ctx.createLinearGradient(0, 12 * k, 0, 18 * k);
+    prorez.addColorStop(0, "rgba(14, 40, 90, 0.32)");
+    prorez.addColorStop(1, "rgba(14, 40, 90, 0)");
+    ctx.fillStyle = prorez;
+    ctx.fill();
+
+    if (logo) {
+      const visina = 28 * k;
+      const sirina = (visina * logo.naturalWidth) / logo.naturalHeight;
+      ctx.drawImage(logo, (W - sirina) / 2, 34 * k, sirina, visina);
+    }
+
+    const linija = ctx.createLinearGradient(28 * k, 0, W - 28 * k, 0);
+    linija.addColorStop(0, "#0e62e0");
+    linija.addColorStop(0.6, "#2e90ff");
+    linija.addColorStop(1, "#00d4ff");
+    ctx.fillStyle = linija;
+    ctx.beginPath();
+    ctx.roundRect(28 * k, 72 * k, W - 56 * k, 3 * k, 1.5 * k);
+    ctx.fill();
+
+    // fotografija
+    const fx = 32 * k;
+    const fy = 89 * k;
+    const fs = 256 * k;
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(fx, fy, fs, fs, 14 * k);
+    ctx.clip();
+    if (foto) {
+      const strana = Math.min(foto.naturalWidth, foto.naturalHeight);
+      ctx.drawImage(
+        foto,
+        (foto.naturalWidth - strana) / 2,
+        (foto.naturalHeight - strana) / 2,
+        strana,
+        strana,
+        fx,
+        fy,
+        fs,
+        fs,
+      );
+    } else {
+      const polje = ctx.createLinearGradient(0, fy, 0, fy + fs);
+      polje.addColorStop(0, "#e9f0fa");
+      polje.addColorStop(1, "#d3e1f4");
+      ctx.fillStyle = polje;
+      ctx.fillRect(fx, fy, fs, fs);
+      ctx.fillStyle = "#bccfe8";
+      ctx.beginPath();
+      ctx.arc(W / 2, fy + 104 * k, 48 * k, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(fx + 34 * k, fy + fs);
+      ctx.bezierCurveTo(fx + 40 * k, fy + 192 * k, fx + 80 * k, fy + 164 * k, W / 2, fy + 164 * k);
+      ctx.bezierCurveTo(W - fx - 80 * k, fy + 164 * k, W - fx - 40 * k, fy + 192 * k, W - fx - 34 * k, fy + fs);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = "#0b1a3a";
+    ctx.font = `700 ${33 * k}px Inter, system-ui, sans-serif`;
+    ctx.letterSpacing = `${-0.02 * 33 * k}px`;
+    ctx.fillText(ime, W / 2, 389 * k, W - 40 * k);
+    ctx.fillStyle = "#0e62e0";
+    ctx.font = `600 ${23 * k}px Inter, system-ui, sans-serif`;
+    ctx.letterSpacing = "0px";
+    ctx.fillText(titula, W / 2, 421 * k, W - 40 * k);
+
+    ctx.fillStyle = linija;
+    ctx.beginPath();
+    ctx.roundRect(W / 2 - 32 * k, 457 * k, 64 * k, 5 * k, 2.5 * k);
+    ctx.fill();
+
+    // sjaj plastike i tanak rub
+    const sjaj = ctx.createLinearGradient(0, 0, W * 0.55, H * 0.45);
+    sjaj.addColorStop(0, "rgba(255, 255, 255, 0.45)");
+    sjaj.addColorStop(0.55, "rgba(255, 255, 255, 0)");
+    ctx.fillStyle = sjaj;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    ctx.strokeStyle = "rgba(14, 40, 90, 0.1)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.roundRect(1.5, 1.5, W - 3, H - 3, 20 * k - 1.5);
+    ctx.stroke();
+
+    t.needsUpdate = true;
+  };
+
+  nacrtaj();
+  const gotovo = Promise.all([
+    document.fonts.load(`700 ${33 * k}px Inter`),
+    document.fonts.load(`600 ${23 * k}px Inter`),
+    ucitajSliku("/svg/logo.svg"),
+    slika ? ucitajSliku(slika) : Promise.resolve(undefined),
+  ])
+    .then(([, , logo, foto]) => nacrtaj(logo, foto))
+    .catch(() => undefined);
+
+  return { tekstura: t, gotovo };
+}

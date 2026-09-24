@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Html, Lightformer, RoundedBox } from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Environment, Lightformer, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import {
   DONJI_DZEP,
@@ -30,6 +30,7 @@ import {
   tacka,
 } from "./mantil";
 import {
+  napraviLiceKartice,
   teksturaBluze,
   teksturaDzepa,
   teksturaKragne,
@@ -41,7 +42,6 @@ import {
   teksturaTrake,
   teksturaUnutrasnjosti,
 } from "./teksture";
-import KarticaLice from "./KarticaLice";
 
 export type StanjeMantila = {
   /** Položaj miša u odnosu na pozornicu, od -1 do 1. */
@@ -238,8 +238,36 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
   const dugmad = useRef<(THREE.Mesh | null)[]>([]);
   const pocetak = useRef<number | null>(null);
 
+  const invalidate = useThree((st) => st.invalidate);
   const delovi = useMemo(napraviDelove, []);
   const materijali = useMemo(napraviMaterijale, []);
+
+  // Lice kartice je tekstura na samoj pločici, pa se nikad ne odvaja od nje.
+  const lice = useMemo(() => napraviLiceKartice(ime, titula, slika), [ime, titula, slika]);
+  const liceMaterijal = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        map: lice.tekstura,
+        emissive: "#ffffff",
+        emissiveMap: lice.tekstura,
+        emissiveIntensity: 0.45,
+        roughness: 0.5,
+        transparent: true,
+        alphaTest: 0.5,
+      }),
+    [lice],
+  );
+  useEffect(() => {
+    let ziv = true;
+    lice.gotovo.then(() => {
+      if (ziv) invalidate();
+    });
+    return () => {
+      ziv = false;
+      lice.tekstura.dispose();
+      liceMaterijal.dispose();
+    };
+  }, [lice, liceMaterijal, invalidate]);
 
   useEffect(
     () => () => {
@@ -308,9 +336,7 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
       kt.rotation.x = -0.04 + z * Math.sin(t * 0.9 + 0.7) * 0.025;
       kt.rotation.y = z * Math.sin(t * 0.7) * 0.05;
     }
-    // Negativan prioritet: pomeranje ide pre nego što HTML lice kartice pročita
-    // položaj, pa lice i pločica nikad ne kasne jedno za drugim.
-  }, -1);
+  });
 
   const { kopca, olovka } = delovi;
 
@@ -359,7 +385,7 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
             <mesh position={[0, -0.04, 0]} rotation={[0, Math.PI / 2, 0]} material={materijali.metal}>
               <torusGeometry args={[0.034, 0.008, 10, 28]} />
             </mesh>
-            {/* pločica kartice daje debljinu i senku na mantilu; lice je u HTML-u */}
+            {/* pločica kartice daje debljinu i senku na mantilu */}
             <RoundedBox
               args={[0.9, 1.35, 0.02]}
               radius={0.05}
@@ -368,15 +394,9 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
               material={materijali.plastika}
               castShadow
             />
-            <Html
-              transform
-              distanceFactor={1.125}
-              position={[0, -0.735, 0.0105]}
-              zIndexRange={[4, 0]}
-              pointerEvents="none"
-            >
-              <KarticaLice ime={ime} titula={titula} slika={slika} />
-            </Html>
+            <mesh position={[0, -0.735, 0.0105]} material={liceMaterijal}>
+              <planeGeometry args={[0.9, 1.35]} />
+            </mesh>
           </group>
         </group>
       </group>

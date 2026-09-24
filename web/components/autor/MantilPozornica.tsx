@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import stil from "./MantilPozornica.module.css";
+import KarticaLice from "./KarticaLice";
 import type { StanjeMantila } from "./MantilScena";
 
 const MantilScena = dynamic(() => import("./MantilScena"), { ssr: false });
@@ -88,11 +89,7 @@ export default function MantilPozornica({ ime, titula, slika, className }: Props
       ) : null}
       {webgl === false ? (
         <div className={stil.rezerva}>
-          <div className={stil.rezervaSlika}>
-            {slika ? <img src={slika} alt="" /> : null}
-          </div>
-          <p className={stil.rezervaIme}>{ime}</p>
-          <p className={stil.rezervaTitula}>{titula}</p>
+          <KarticaLice ime={ime} titula={titula} slika={slika} />
         </div>
       ) : null}
     </div>

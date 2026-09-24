@@ -56,38 +56,6 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(62%, 17rem);
-  padding: 1rem 1rem 1.25rem;
-  border-radius: 20px;
-  border: 1px solid rgb(255 255 255 / 90%);
-  background: linear-gradient(180deg, #fff, #eef4fc);
-  box-shadow: var(--senka-3);
-  text-align: center;
-  transform: translate(-50%, -50%) rotate(-3deg);
-}
-
-.rezervaSlika {
-  aspect-ratio: 1;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #e9f0fa, #d3e1f4);
-  overflow: hidden;
-}
-
-.rezervaSlika img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.rezervaIme {
-  margin-top: 0.85rem;
-  color: var(--teget);
-  font-size: 1.125rem;
-  font-weight: 700;
-}
-
-.rezervaTitula {
-  color: var(--plava-tamna);
-  font-size: var(--f-najsitnije);
-  font-weight: 600;
+  transform: translate(-50%, -50%) rotate(-3deg) scale(0.8);
+  filter: drop-shadow(0 18px 30px rgb(16 32 64 / 18%));
 }
