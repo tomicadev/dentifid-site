@@ -1,0 +1,171 @@
+.podnozje {
+  position: relative;
+  padding-block: calc(var(--r8) + 1.5rem) var(--r6);
+  background: linear-gradient(180deg, #eef2f8 0%, #e7edf6 100%);
+  border-top: 1px solid rgb(255 255 255 / 80%);
+}
+
+/* Dve ukrštene četkice sede na šavu, pola iznad, pola ispod ivice. */
+.znakMesto {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  width: clamp(11rem, 20vw, 14rem);
+  aspect-ratio: 2 / 1;
+  transform: translate(-50%, -58%);
+  pointer-events: none;
+  filter: drop-shadow(0 10px 14px rgb(14 60 140 / 22%));
+}
+
+.cetkica {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 50%;
+}
+
+/* glava leve četkice gore desno, desne gore levo — četkice se seku u sredini */
+.cetkicaLeva {
+  transform: translateY(-50%) rotate(-24deg);
+}
+
+.cetkicaDesna {
+  transform: translateY(-50%) scaleX(-1) rotate(-24deg);
+}
+
+/* Karton: podnožje je složeno kao list iz stomatološkog kartona. */
+.karton {
+  position: relative;
+  display: grid;
+  gap: var(--r6);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: var(--zaob-velika);
+  border: 1px solid rgb(255 255 255 / 85%);
+  background: rgb(255 255 255 / 72%);
+  box-shadow: var(--senka-1);
+}
+
+@media (min-width: 56rem) {
+  .karton {
+    grid-template-columns: 1.1fr 0.9fr 1.3fr;
+    gap: var(--r7);
+  }
+}
+
+.zaglavljeKartona {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r4);
+}
+
+.logo {
+  display: inline-flex;
+  align-self: flex-start;
+  border-radius: 8px;
+}
+
+.logo img {
+  height: 2rem;
+  width: auto;
+}
+
+.slogan {
+  max-width: 34ch;
+  color: var(--prigusen);
+  font-size: var(--f-sitno);
+  line-height: 1.6;
+}
+
+.naslovKolone {
+  margin-bottom: var(--r3);
+  color: var(--prigusen);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.redovi {
+  display: grid;
+  gap: 0.6rem;
+  list-style: none;
+  font-size: var(--f-sitno);
+}
+
+/* Red u kartonu: naziv polja levo, vrednost desno, tanka tačkasta veza. */
+.red {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.5rem;
+  color: var(--tekst);
+}
+
+.polje {
+  color: var(--prigusen);
+  white-space: nowrap;
+}
+
+.crtice {
+  min-width: 1rem;
+  border-bottom: 1px dotted #c3ccda;
+  transform: translateY(-0.25rem);
+}
+
+.veza {
+  position: relative;
+  color: var(--plava-tekst);
+  font-weight: 500;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.veza::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--brzo) var(--ulaz);
+}
+
+.veza:hover::after,
+.veza:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Na uskom ekranu vrednost ide ispod naziva polja, da duge adrese ne lome red. */
+@media (max-width: 30rem) {
+  .red {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .crtice {
+    display: none;
+  }
+}
+
+.sitno {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r2) var(--r5);
+  justify-content: space-between;
+  margin-top: var(--r6);
+  padding-top: var(--r5);
+  border-top: 1px solid rgb(129 141 159 / 22%);
+  color: var(--prigusen);
+  font-size: var(--f-najsitnije);
+}
+
+.ime {
+  color: var(--tekst);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}

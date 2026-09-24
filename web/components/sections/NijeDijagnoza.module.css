@@ -1,0 +1,73 @@
+.sekcija {
+  padding-block: calc(var(--ritam) * 0.62);
+}
+
+.kartica {
+  position: relative;
+  max-width: 44rem;
+  margin-inline: auto;
+  padding: clamp(2.5rem, 5vw, 3.25rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 2.5rem);
+  border-radius: var(--zaob-velika);
+  border: 1px solid rgb(255 255 255 / 85%);
+  background: rgb(255 255 255 / 76%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--senka-2);
+  text-align: center;
+}
+
+/* Znak stoji na ivici kartice, sa mekim prstenom oko sebe. */
+.znak {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: var(--povrsina);
+  border: 1px solid var(--ivica);
+  color: var(--plava-tekst);
+  box-shadow:
+    0 0 0 8px rgb(224 231 255 / 55%),
+    var(--senka-1);
+  transform: translate(-50%, -50%);
+}
+
+.znak svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.naslov {
+  margin-bottom: var(--r4);
+  font-size: var(--f-h3);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.tekst {
+  max-width: 40rem;
+  margin-inline: auto;
+  color: var(--tekst);
+  font-size: var(--f-uvod);
+  line-height: 1.6;
+}
+
+.hitno {
+  max-width: 40rem;
+  margin: var(--r5) auto 0;
+  padding-top: var(--r4);
+  border-top: 1px solid var(--ivica);
+  color: var(--prigusen);
+  font-size: var(--f-sitno);
+}
+
+.broj {
+  color: var(--crvena-tekst);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}

@@ -1,0 +1,119 @@
+.dugme {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.55rem;
+  border: 1px solid transparent;
+  border-radius: var(--zaob-pilula);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform var(--brzo) var(--ulaz),
+    box-shadow var(--brzo) var(--ulaz),
+    border-color var(--brzo) var(--ulaz),
+    color var(--brzo) var(--ulaz);
+}
+
+.dugme:active {
+  transform: translateY(1px);
+}
+
+/* Odsjaj koji jednom prebriše dugme pri prelasku mišem. */
+.dugme::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -40%;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    rgb(255 255 255 / 0%),
+    rgb(255 255 255 / 55%),
+    rgb(255 255 255 / 0%)
+  );
+  transform: translateX(0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.dugme:hover::after,
+.dugme:focus-visible::after {
+  animation: prelaz 720ms var(--izlaz);
+}
+
+@keyframes prelaz {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(360%);
+    opacity: 0;
+  }
+}
+
+.glavno {
+  background-image: var(--gradijent);
+  background-color: var(--plava-tamna);
+  color: #fff;
+  box-shadow: var(--senka-dugme);
+}
+
+.glavno:hover {
+  box-shadow: 0 2px 4px rgb(14 98 224 / 24%), 0 16px 34px rgb(14 98 224 / 26%);
+}
+
+.sporedno {
+  background: rgb(255 255 255 / 86%);
+  border-color: var(--ivica);
+  color: var(--tekst);
+  box-shadow: var(--senka-1);
+}
+
+.sporedno:hover {
+  border-color: #c9d4e4;
+  box-shadow: var(--senka-2);
+}
+
+.tiho {
+  background: transparent;
+  border-color: transparent;
+  color: var(--plava-tekst);
+  padding-inline: 0.75rem;
+}
+
+.tiho:hover {
+  background: var(--blaga);
+}
+
+.sitno {
+  padding: 0.55rem 1.05rem;
+  font-size: var(--f-najsitnije);
+}
+
+.veliko {
+  padding: 1.05rem 1.9rem;
+  font-size: var(--f-uvod);
+}
+
+.ikona {
+  display: inline-flex;
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.ikona svg {
+  width: 100%;
+  height: 100%;
+}

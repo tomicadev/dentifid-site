@@ -1,0 +1,124 @@
+.zaglavlje {
+  max-width: 42rem;
+  margin-inline: auto;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.zaglavlje .nadnaslov {
+  justify-content: center;
+}
+
+.uvodSredina {
+  margin-inline: auto;
+  margin-top: var(--r4);
+}
+
+/* Kartica je presečena po dijagonali: leva polovina svetla, desna tamna. Šav
+   je mekan, sa plavim sjajem, pa se ne čita kao greška u crtanju. */
+.kartica {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 70%);
+  box-shadow:
+    0 2px 6px rgb(16 32 64 / 6%),
+    0 40px 90px -40px rgb(11 18 32 / 55%);
+  background: linear-gradient(
+    104deg,
+    #fbfcfe 0%,
+    #eef3fa 47%,
+    #1a2740 49.4%,
+    #0f1a2d 50.6%,
+    #0b1220 100%
+  );
+}
+
+.kartica::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(34% 50% at 24% 46%, rgb(0 122 255 / 12%), transparent 72%),
+    radial-gradient(36% 54% at 76% 50%, rgb(46 144 255 / 26%), transparent 72%),
+    linear-gradient(104deg, transparent 46%, rgb(64 148 253 / 28%) 50%, transparent 54%);
+  pointer-events: none;
+}
+
+/* Sitna mreža samo na tamnoj polovini, kao ekran u mraku. */
+.kartica::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(154 167 184 / 8%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(154 167 184 / 8%) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  clip-path: polygon(51% 0, 100% 0, 100% 100%, 43% 100%);
+  pointer-events: none;
+}
+
+.telefoni {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 7vw, 6rem);
+  padding: clamp(2.5rem, 5vw, 3.75rem) var(--r4) clamp(0.5rem, 2vw, 1rem);
+}
+
+.svetliTelefon {
+  transform: translateY(1.2rem);
+}
+
+.tamniTelefon {
+  transform: translateY(-0.6rem);
+}
+
+/* Natpisi stoje u dnu, svaki na svojoj polovini. */
+.natpisi {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem) clamp(1.25rem, 3vw, 1.75rem);
+  list-style: none;
+}
+
+.natpis {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--f-sitno);
+  font-weight: 600;
+}
+
+.svetla {
+  color: var(--tekst);
+}
+
+.tamna {
+  color: var(--t-tekst);
+}
+
+.tacka {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+}
+
+.svetla .tacka {
+  background: #fff;
+}
+
+.tamna .tacka {
+  background: var(--t-povrsina);
+}
+
+@media (max-width: 30rem) {
+  .telefoni {
+    gap: 0.75rem;
+  }
+}

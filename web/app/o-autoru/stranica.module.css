@@ -1,0 +1,101 @@
+.strana {
+  padding-block: clamp(8rem, 14vw, 11rem) var(--ritam);
+}
+
+.clanak {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.uvod {
+  margin-top: var(--r5);
+}
+
+.najava {
+  display: flex;
+  gap: var(--r3);
+  margin-top: var(--r6);
+  padding: var(--r5);
+  border-radius: var(--zaob-kartica);
+  border: 1px solid rgb(255 255 255 / 85%);
+  background: rgb(255 255 255 / 72%);
+  box-shadow: var(--senka-1);
+  color: var(--prigusen);
+  font-size: var(--f-sitno);
+  line-height: 1.6;
+}
+
+.najava svg {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.15rem;
+  color: var(--plava-tekst);
+}
+
+.raspored {
+  display: grid;
+  gap: var(--r7);
+  margin-top: var(--r7);
+}
+
+@media (min-width: 46rem) {
+  .raspored {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: var(--r7);
+  }
+}
+
+.mestoZaSliku {
+  display: grid;
+  place-content: center;
+  gap: var(--r2);
+  aspect-ratio: 1;
+  border-radius: var(--zaob-velika);
+  border: 1px dashed var(--ivica-kontrole);
+  background: rgb(255 255 255 / 55%);
+  color: var(--prigusen);
+  font-size: var(--f-najsitnije);
+  text-align: center;
+}
+
+.polja {
+  display: grid;
+  gap: var(--r5);
+  list-style: none;
+}
+
+.polje {
+  padding-bottom: var(--r5);
+  border-bottom: 1px solid var(--ivica);
+}
+
+.polje:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.naslovPolja {
+  margin-bottom: var(--r2);
+  font-size: var(--f-h3);
+}
+
+.tekstPolja {
+  color: var(--prigusen);
+  font-size: var(--f-sitno);
+  line-height: 1.6;
+}
+
+.ceka {
+  display: inline-block;
+  margin-top: var(--r3);
+  padding: 0.15rem 0.6rem;
+  border: 1px dashed var(--ivica-kontrole);
+  border-radius: var(--zaob-pilula);
+  color: var(--prigusen);
+  font-size: var(--f-najsitnije);
+}
+
+.nazad {
+  margin-top: var(--r8);
+}

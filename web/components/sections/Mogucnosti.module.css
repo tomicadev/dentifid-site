@@ -1,0 +1,165 @@
+.zaglavlje {
+  max-width: 44rem;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.kartice {
+  display: grid;
+  gap: var(--r4);
+  list-style: none;
+}
+
+@media (min-width: 42rem) {
+  .kartice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .kartice {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.kartica {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r3);
+  height: 100%;
+  padding: clamp(1.4rem, 2.6vw, 1.85rem);
+  border-radius: var(--zaob-velika);
+  border: 1px solid rgb(255 255 255 / 80%);
+  background: rgb(255 255 255 / 68%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--senka-1);
+  overflow: hidden;
+  transition:
+    transform var(--srednje) var(--ulaz),
+    box-shadow var(--srednje) var(--ulaz),
+    border-color var(--srednje) var(--ulaz);
+}
+
+.kartica:hover {
+  transform: translateY(-4px);
+  border-color: rgb(0 122 255 / 24%);
+  box-shadow: var(--senka-2);
+}
+
+/* Sjaj koji se pali u uglu kartice, ispod ikonice. */
+.kartica::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(0 122 255 / 16%), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--sporo) var(--ulaz);
+  pointer-events: none;
+}
+
+.kartica:hover::before {
+  opacity: 1;
+}
+
+.znak {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 14px;
+  background: var(--blaga);
+  color: var(--plava-na-blagoj);
+  transition: color var(--srednje) var(--ulaz);
+}
+
+.znak svg {
+  position: relative;
+  z-index: 1;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.znak::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--gradijent);
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity var(--srednje) var(--ulaz),
+    transform var(--srednje) var(--ulaz);
+}
+
+.kartica:hover .znak {
+  color: #fff;
+}
+
+.kartica:hover .znak::before {
+  opacity: 1;
+  transform: none;
+}
+
+.naslovKartice {
+  font-size: var(--f-h3);
+}
+
+.tekst {
+  color: var(--prigusen);
+  font-size: var(--f-sitno);
+  line-height: 1.6;
+}
+
+/* Poslednja kartica poziva na preuzimanje umesto da nabraja. */
+.poziv {
+  justify-content: space-between;
+  background: linear-gradient(140deg, rgb(14 98 224 / 96%), rgb(64 148 253 / 96%));
+  border-color: transparent;
+  color: #fff;
+}
+
+.poziv .naslovKartice,
+.poziv .tekst {
+  color: #fff;
+}
+
+.poziv .tekst {
+  opacity: 0.86;
+}
+
+.poziv .znak {
+  background: rgb(255 255 255 / 18%);
+  color: #fff;
+}
+
+.poziv .znak::before {
+  background: rgb(255 255 255 / 26%);
+}
+
+.pozivVeza {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--r2);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--f-sitno);
+  text-decoration: none;
+}
+
+.pozivVeza svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform var(--brzo) var(--ulaz);
+}
+
+.poziv:hover .pozivVeza svg {
+  transform: translateX(4px);
+}

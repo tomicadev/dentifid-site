@@ -1,0 +1,161 @@
+.sekcija {
+  position: relative;
+}
+
+.zaglavlje {
+  max-width: 48rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.koraci {
+  position: relative;
+  display: grid;
+  gap: var(--r5);
+  list-style: none;
+}
+
+@media (min-width: 52rem) {
+  .koraci {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--r6);
+  }
+}
+
+/* Tanka isprekidana linija koja povezuje korake; „iscrtava se" rastezanjem. */
+.spojnica {
+  position: absolute;
+  z-index: 0;
+  left: 12%;
+  right: 12%;
+  top: 3.15rem;
+  height: 1px;
+  background-image: linear-gradient(to right, #9fb2cb 0 8px, transparent 8px 16px);
+  background-size: 16px 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 900ms var(--ulaz);
+}
+
+.spojnica[data-vidljivo="da"] {
+  transform: scaleX(1);
+}
+
+@media (max-width: 51.99rem) {
+  .spojnica {
+    display: none;
+  }
+}
+
+.korak {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r3);
+  padding: clamp(1.4rem, 2.6vw, 2rem);
+  border-radius: var(--zaob-velika);
+  border: 1px solid rgb(255 255 255 / 82%);
+  background: rgb(255 255 255 / 70%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--senka-1);
+  overflow: hidden;
+  transition:
+    transform var(--srednje) var(--ulaz),
+    box-shadow var(--srednje) var(--ulaz),
+    border-color var(--srednje) var(--ulaz);
+}
+
+.korak:hover {
+  transform: translateY(-4px);
+  border-color: rgb(0 122 255 / 26%);
+  box-shadow: var(--senka-2);
+}
+
+/* Blagi plavi sjaj koji se pali iza kartice pri prelasku mišem. */
+.korak::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto;
+  height: 70%;
+  background: radial-gradient(60% 60% at 50% 50%, rgb(0 122 255 / 14%), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--sporo) var(--ulaz);
+  pointer-events: none;
+}
+
+.korak:hover::before {
+  opacity: 1;
+}
+
+.znacka {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: var(--povrsina);
+  border: 1px solid var(--ivica);
+  color: var(--plava-tekst);
+  box-shadow: var(--senka-1);
+  transition:
+    color var(--srednje) var(--ulaz),
+    border-color var(--srednje) var(--ulaz);
+}
+
+.znacka svg {
+  position: relative;
+  z-index: 1;
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.znacka::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--gradijent);
+  opacity: 0;
+  transform: scale(0.72);
+  transition:
+    opacity var(--srednje) var(--ulaz),
+    transform var(--srednje) var(--ulaz);
+}
+
+.korak:hover .znacka {
+  color: #fff;
+  border-color: transparent;
+}
+
+.korak:hover .znacka::before {
+  opacity: 1;
+  transform: none;
+}
+
+/* Redni broj stoji kao vodeni žig u uglu kartice. */
+.broj {
+  position: absolute;
+  top: clamp(0.6rem, 1.6vw, 1rem);
+  right: clamp(0.9rem, 2vw, 1.4rem);
+  font-size: clamp(3.2rem, 6vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #0e62e0;
+  opacity: 0.07;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.naslovKoraka {
+  margin-top: var(--r2);
+}
+
+.tekst {
+  color: var(--prigusen);
+  font-size: var(--f-sitno);
+  line-height: 1.6;
+}

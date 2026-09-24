@@ -1,0 +1,247 @@
+.talasi {
+  position: relative;
+  margin-top: var(--ritam);
+  line-height: 0;
+}
+
+.talasi svg {
+  display: block;
+  width: 100%;
+  height: clamp(4rem, 8vw, 8rem);
+}
+
+.talas1 {
+  fill: var(--talas-3);
+}
+
+.talas2 {
+  fill: var(--talas-2);
+}
+
+.talas3 {
+  fill: var(--talas-1);
+}
+
+.sekcija {
+  position: relative;
+  padding-block: 0 var(--ritam);
+  background: var(--talas-1);
+  --prigusen: var(--prigusen-na-plavoj);
+}
+
+.mreza {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+@media (min-width: 58rem) {
+  .mreza {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+  }
+}
+
+.uvodDole {
+  margin-bottom: var(--r6);
+}
+
+/* --- koraci kao uspravna traka ------------------------------------------- */
+
+.koraci {
+  position: relative;
+  display: grid;
+  gap: var(--r5);
+  margin-bottom: var(--r6);
+  padding-left: 2.75rem;
+  list-style: none;
+}
+
+.koraci::before {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  left: 0.87rem;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgb(14 98 224 / 34%),
+    rgb(14 98 224 / 12%)
+  );
+}
+
+.korak {
+  position: relative;
+}
+
+.korakBroj {
+  position: absolute;
+  left: -2.75rem;
+  top: -0.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--povrsina);
+  border: 1px solid rgb(14 98 224 / 26%);
+  color: var(--plava-tekst);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 4px rgb(211 228 250 / 90%);
+}
+
+.korakTekst {
+  font-size: var(--f-sitno);
+  line-height: 1.55;
+}
+
+.napomenaPlay {
+  max-width: 42rem;
+  margin-bottom: var(--r6);
+  padding: var(--r4) var(--r5);
+  border-radius: var(--zaob-kartica);
+  border: 1px solid rgb(255 255 255 / 70%);
+  background: rgb(255 255 255 / 55%);
+  color: var(--prigusen-na-plavoj);
+  font-size: var(--f-najsitnije);
+  line-height: 1.55;
+}
+
+.radnje {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r3);
+}
+
+/* --- QR ------------------------------------------------------------------ */
+
+.qr {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--r4);
+  justify-self: center;
+  width: min(100%, 19rem);
+  margin: 0;
+  padding: clamp(1.6rem, 3vw, 2.1rem) clamp(1.4rem, 2.8vw, 1.9rem);
+  border-radius: var(--zaob-velika);
+  border: 1px solid rgb(255 255 255 / 90%);
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgb(0 122 255 / 7%), transparent 70%),
+    var(--povrsina);
+  box-shadow:
+    0 2px 6px rgb(16 32 64 / 6%),
+    0 30px 60px -24px rgb(14 98 224 / 32%);
+  text-align: center;
+}
+
+/* Zubići na uglovima prozora, nagnuti ka spolja. */
+.ugao {
+  position: absolute;
+  width: 1.55rem;
+  height: 1.55rem;
+  filter: drop-shadow(0 3px 6px rgb(14 98 224 / 28%));
+}
+
+.ugao svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ugao path {
+  fill: #2e90ff;
+}
+
+.gl {
+  top: -0.7rem;
+  left: -0.7rem;
+  transform: rotate(-18deg);
+}
+
+.gd {
+  top: -0.7rem;
+  right: -0.7rem;
+  transform: rotate(18deg);
+}
+
+.dl {
+  bottom: -0.7rem;
+  left: -0.7rem;
+  transform: rotate(-162deg);
+}
+
+.dd {
+  bottom: -0.7rem;
+  right: -0.7rem;
+  transform: rotate(162deg);
+}
+
+/* Okvir oko koda sa uglovima kao na tražilu kamere. */
+.qrOkvir {
+  position: relative;
+  display: block;
+  padding: 0.65rem;
+}
+
+.qrOkvir::before,
+.qrOkvir::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--plava);
+  border-radius: 14px;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) top left / 1.4rem 1.4rem no-repeat,
+    linear-gradient(#000 0 0) top right / 1.4rem 1.4rem no-repeat,
+    linear-gradient(#000 0 0) bottom left / 1.4rem 1.4rem no-repeat,
+    linear-gradient(#000 0 0) bottom right / 1.4rem 1.4rem no-repeat;
+  mask:
+    linear-gradient(#000 0 0) top left / 1.4rem 1.4rem no-repeat,
+    linear-gradient(#000 0 0) top right / 1.4rem 1.4rem no-repeat,
+    linear-gradient(#000 0 0) bottom left / 1.4rem 1.4rem no-repeat,
+    linear-gradient(#000 0 0) bottom right / 1.4rem 1.4rem no-repeat;
+}
+
+.qrOkvir::after {
+  display: none;
+}
+
+.qr img {
+  width: 10.5rem;
+  height: 10.5rem;
+}
+
+.qrNatpis {
+  color: var(--prigusen-na-plavoj);
+  font-size: var(--f-najsitnije);
+  line-height: 1.5;
+}
+
+.qrAdresa {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--tekst);
+  font-weight: 600;
+}
+
+.podaci {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r2) var(--r6);
+  margin-top: var(--r7);
+  padding-top: var(--r5);
+  border-top: 1px solid var(--talas-2);
+  color: var(--prigusen-na-plavoj);
+  font-size: var(--f-najsitnije);
+  list-style: none;
+}
+
+.podatak strong {
+  color: var(--tekst);
+  font-weight: 600;
+}

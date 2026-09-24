@@ -1,0 +1,54 @@
+name: Objavi sajt
+
+# Next.js se gradi u statican izvoz (`web/out`) i samo taj folder ide na Pages,
+# pa materijal i dokumentacija ostaju van interneta.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  objavi:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.objavljivanje.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Instaliraj zavisnosti
+        run: npm ci --legacy-peer-deps
+
+      - name: Napravi statican izvoz
+        run: npm run build
+        env:
+          # Kljuc za kontakt formu (Web3Forms). Javan je po prirodi, pa se drzi
+          # kao promenljiva repoa: Settings -> Secrets and variables -> Variables.
+          NEXT_PUBLIC_WEB3FORMS_KLJUC: ${{ vars.WEB3FORMS_KLJUC }}
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/out
+
+      - id: objavljivanje
+        uses: actions/deploy-pages@v5

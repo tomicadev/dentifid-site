@@ -1,0 +1,11 @@
+# izvorni paket materijala, raspakovan je u materijal/
+dentifid-sajt-materijal.zip
+
+# privremeno
+*.apk
+Thumbs.db
+.DS_Store
+
+# interni materijal: brief, prompt, plan i originalni snimci ostaju samo lokalno
+materijal/
+docs/

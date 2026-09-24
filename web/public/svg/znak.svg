@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="DentifID znak, ravna verzija">
+  <title>DentifID</title>
+  <defs>
+    <clipPath id="dffTooth"><path d="M96 26C88 26 70 4 52 9C33 13 13 33 12 62C11 85 17 103 27 119C34 143 42 170 54 182C61 189 69 187 72 178C80 159 88 138 96 131C99 128 104 129 106 133C111 145 116 169 124 181C133 193 152 194 162 183C171 173 176 155 179 136C187 111 195 86 193 64C191 34 170 7 146 8C124 9 104 26 96 26Z"/></clipPath>
+    <clipPath id="dffPrint"><path d="M93 0C86 40 82 80 85 108c5 16 15 20 18 32v60h97V0Z" clip-path="url(#dffTooth)"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#dffTooth)">
+    <path d="M96 26C88 26 70 4 52 9C33 13 13 33 12 62C11 85 17 103 27 119C34 143 42 170 54 182C61 189 69 187 72 178C80 159 88 138 96 131C99 128 104 129 106 133C111 145 116 169 124 181C133 193 152 194 162 183C171 173 176 155 179 136C187 111 195 86 193 64C191 34 170 7 146 8C124 9 104 26 96 26Z" fill="#007AFF"/>
+    <g clip-path="url(#dffPrint)">
+      <g transform="rotate(-10 129 90)" fill="none" stroke-linecap="round">
+        <g transform="translate(2.8 3.6)" stroke="#00499A" stroke-width="6.6" opacity="0.55"><ellipse cx="129" cy="90" rx="8" ry="10"/><ellipse cx="129" cy="90" rx="17" ry="21"/><ellipse cx="129" cy="90" rx="26" ry="32"/><ellipse cx="129" cy="90" rx="35" ry="44"/><ellipse cx="129" cy="90" rx="44" ry="55"/><ellipse cx="129" cy="90" rx="53" ry="66"/><ellipse cx="129" cy="90" rx="62" ry="78"/><ellipse cx="129" cy="90" rx="71" ry="89"/><ellipse cx="129" cy="90" rx="80" ry="100"/><ellipse cx="129" cy="90" rx="89" ry="111"/><ellipse cx="129" cy="90" rx="98" ry="122"/><ellipse cx="129" cy="90" rx="107" ry="134"/><ellipse cx="129" cy="90" rx="116" ry="145"/><ellipse cx="129" cy="90" rx="125" ry="156"/><ellipse cx="129" cy="90" rx="134" ry="168"/><path d="M96 46c14 3 25 10 33 20"/><path d="M92 150c12 9 26 14 40 15"/><path d="M104 22c15 3 28 9 39 18"/><path d="M99 176c10 7 22 11 34 12"/></g>
+        <g stroke="#007AFF" stroke-width="6.2"><ellipse cx="129" cy="90" rx="8" ry="10"/><ellipse cx="129" cy="90" rx="17" ry="21"/><ellipse cx="129" cy="90" rx="26" ry="32"/><ellipse cx="129" cy="90" rx="35" ry="44"/><ellipse cx="129" cy="90" rx="44" ry="55"/><ellipse cx="129" cy="90" rx="53" ry="66"/><ellipse cx="129" cy="90" rx="62" ry="78"/><ellipse cx="129" cy="90" rx="71" ry="89"/><ellipse cx="129" cy="90" rx="80" ry="100"/><ellipse cx="129" cy="90" rx="89" ry="111"/><ellipse cx="129" cy="90" rx="98" ry="122"/><ellipse cx="129" cy="90" rx="107" ry="134"/><ellipse cx="129" cy="90" rx="116" ry="145"/><ellipse cx="129" cy="90" rx="125" ry="156"/><ellipse cx="129" cy="90" rx="134" ry="168"/><path d="M96 46c14 3 25 10 33 20"/><path d="M92 150c12 9 26 14 40 15"/><path d="M104 22c15 3 28 9 39 18"/><path d="M99 176c10 7 22 11 34 12"/></g>
+        <g transform="translate(-1.1 -1.6)" stroke="#66B6FF" stroke-width="2.3" opacity="0.8"><ellipse cx="129" cy="90" rx="8" ry="10"/><ellipse cx="129" cy="90" rx="17" ry="21"/><ellipse cx="129" cy="90" rx="26" ry="32"/><ellipse cx="129" cy="90" rx="35" ry="44"/><ellipse cx="129" cy="90" rx="44" ry="55"/><ellipse cx="129" cy="90" rx="53" ry="66"/><ellipse cx="129" cy="90" rx="62" ry="78"/><ellipse cx="129" cy="90" rx="71" ry="89"/><ellipse cx="129" cy="90" rx="80" ry="100"/><ellipse cx="129" cy="90" rx="89" ry="111"/><ellipse cx="129" cy="90" rx="98" ry="122"/><ellipse cx="129" cy="90" rx="107" ry="134"/><ellipse cx="129" cy="90" rx="116" ry="145"/><ellipse cx="129" cy="90" rx="125" ry="156"/><ellipse cx="129" cy="90" rx="134" ry="168"/><path d="M96 46c14 3 25 10 33 20"/><path d="M92 150c12 9 26 14 40 15"/><path d="M104 22c15 3 28 9 39 18"/><path d="M99 176c10 7 22 11 34 12"/></g>
+      </g>
+    </g>
+  </g>
+</svg>

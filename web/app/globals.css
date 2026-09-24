@@ -1,0 +1,340 @@
+@charset "utf-8";
+
+/* =========================================================================
+   DentifID — temelj
+   Boje, zaobljenja i pismo prepisani iz aplikacije (materijal/02-dizajn.md).
+   Sajt je svetao; tamne vrednosti se koriste samo u sekciji koja pokazuje
+   da aplikacija ima i tamnu temu.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-400-700.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* --- brend ----------------------------------------------------------- */
+  --plava: #007aff;
+  --plava-tekst: #006be0;
+  --plava-tamna: #0e62e0;
+  --plava-na-blagoj: #005ec6;
+  --cijan: #00d4ff;
+  --teget: #081a55;
+
+  --pozadina: #f5f7fa;
+  --povrsina: #ffffff;
+  --blaga: #e0e7ff;
+  --tekst: #2d3436;
+  --prigusen: #5d6874;
+  --prigusen-na-plavoj: #545f6b;
+  --ivica: #e4e9f0;
+  --ivica-kontrole: #818d9f;
+
+  /* --- nivoi hitnosti --------------------------------------------------- */
+  --zelena: #34c759;
+  --zuta: #ffcc00;
+  --narandzasta: #ff9500;
+  --crvena: #ff3b30;
+  --zelena-tekst: #1c8a3a;
+  --zuta-tekst: #8a6a00;
+  --narandzasta-tekst: #a35c00;
+  --crvena-tekst: #dd0c00;
+  --crvena-podloga: #fff3f2;
+
+  /* --- tamna tema aplikacije, samo za sekciju o temama ------------------ */
+  --t-pozadina: #0b1220;
+  --t-povrsina: #131c2b;
+  --t-tekst: #e9eef5;
+  --t-prigusen: #9aa7b8;
+  --t-ivica: #223047;
+  --t-plava: #2e90ff;
+
+  --talas-1: #d3e4fa;
+  --talas-2: #b2d3f8;
+  --talas-3: #88bdf5;
+
+  --gradijent: linear-gradient(100deg, #0e62e0 0%, #1069e8 45%, #4094fd 100%);
+  --gradijent-tekst: linear-gradient(100deg, #0e62e0 0%, #2e90ff 55%, #00d4ff 100%);
+
+  /* --- razmaci i oblici ------------------------------------------------- */
+  --r1: 0.25rem;
+  --r2: 0.5rem;
+  --r3: 0.75rem;
+  --r4: 1rem;
+  --r5: 1.5rem;
+  --r6: 2rem;
+  --r7: 3rem;
+  --r8: 4rem;
+  --r9: 6rem;
+  --r10: 8rem;
+
+  --sirina: 78rem;
+  --oluk: clamp(1.25rem, 4vw, 3.5rem);
+  --ritam: clamp(4.5rem, 10vw, 9rem);
+
+  --zaob-kartica: 18px;
+  --zaob-velika: 26px;
+  --zaob-pilula: 999px;
+  --zaob-telefon: 38px;
+
+  /* --- pismo ------------------------------------------------------------ */
+  --f-h1: clamp(2.25rem, 1.2rem + 4.2vw, 4.25rem);
+  --f-h2: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  --f-h3: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --f-uvod: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+  --f-telo: 1.0625rem;
+  --f-sitno: 0.9375rem;
+  --f-najsitnije: 0.875rem;
+
+  /* --- kretanje --------------------------------------------------------- */
+  --brzo: 180ms;
+  --srednje: 280ms;
+  --sporo: 520ms;
+  --ulaz: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --izlaz: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- senke ------------------------------------------------------------ */
+  --senka-1: 0 1px 2px rgb(16 32 64 / 4%), 0 4px 12px rgb(16 32 64 / 5%);
+  --senka-2: 0 2px 4px rgb(16 32 64 / 5%), 0 12px 32px rgb(16 32 64 / 8%);
+  --senka-3: 0 4px 8px rgb(16 32 64 / 6%), 0 28px 64px rgb(16 32 64 / 12%);
+  --senka-dugme: 0 1px 2px rgb(14 98 224 / 22%), 0 10px 26px rgb(14 98 224 / 22%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Sjaj oko telefona i telefoni sa strane smeju da izađu iz svog okvira,
+     ali nikad da naprave vodoravni skrol. */
+  overflow-x: clip;
+}
+
+html.lenis {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--pozadina);
+  color: var(--tekst);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--f-telo);
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+/* =========================================================================
+   Pozadina: mreža tankih linija, dva meka odsjaja i vrlo sitno zrno.
+   Sve je u fiksnom sloju iza sadržaja, da se ne pomera sa skrolom.
+   ========================================================================= */
+
+.podloga {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 78% -10%, rgb(0 122 255 / 10%), transparent 65%),
+    radial-gradient(48rem 34rem at 6% 8%, rgb(0 212 255 / 8%), transparent 60%),
+    linear-gradient(180deg, #fbfcfe 0%, var(--pozadina) 42%, #eef2f8 100%);
+}
+
+.podloga::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(129 141 159 / 12%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(129 141 159 / 12%) 1px, transparent 1px);
+  background-size: 4.5rem 4.5rem;
+  mask-image: radial-gradient(90% 65% at 50% 0%, #000 0%, transparent 78%);
+}
+
+/* Zrno smiruje velike površine i skida „plastičan" utisak sa gradijenata. */
+.podloga::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='z'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23z)' opacity='0.16'/></svg>");
+}
+
+/* =========================================================================
+   Tipografija
+   ========================================================================= */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--tekst);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--f-h1);
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: var(--f-h2);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  font-size: var(--f-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--plava-tekst);
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--plava-tekst);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* =========================================================================
+   Deljene sitnice
+   ========================================================================= */
+
+.okvir {
+  width: 100%;
+  max-width: var(--sirina);
+  margin-inline: auto;
+  padding-inline: var(--oluk);
+}
+
+.sekcija {
+  position: relative;
+  padding-block: var(--ritam);
+}
+
+.nadnaslov {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r2);
+  margin-bottom: var(--r4);
+  color: var(--plava-na-blagoj);
+  font-size: var(--f-najsitnije);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nadnaslov::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.uvod {
+  max-width: 56ch;
+  color: var(--prigusen);
+  font-size: var(--f-uvod);
+  line-height: 1.6;
+}
+
+.istaknuto {
+  background: var(--gradijent-tekst);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.samo-za-citace {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Staklena kartica: koristi se štedljivo, samo tamo gde nešto lebdi
+   iznad pozadinske mreže. */
+.staklo {
+  background: rgb(255 255 255 / 72%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 70%);
+  box-shadow: var(--senka-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --brzo: 1ms;
+    --srednje: 1ms;
+    --sporo: 1ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Veza za preskakanje na sadržaj; vidi se tek kad je fokusirana. */
+.preskoci {
+  position: fixed;
+  left: 50%;
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: var(--zaob-pilula);
+  border: 1px solid var(--ivica);
+  background: var(--povrsina);
+  color: var(--plava-tekst);
+  font-size: var(--f-sitno);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translate(-50%, -220%);
+  transition: transform var(--brzo) var(--ulaz);
+}
+
+.preskoci:focus-visible {
+  transform: translate(-50%, 0);
+}
