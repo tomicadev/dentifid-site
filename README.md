@@ -111,16 +111,18 @@ porukom, tako da radi i bez njega.
    `web/.env.local` kao `NEXT_PUBLIC_WEB3FORMS_KLJUC=...`.
 
 Ključ je po prirodi javan (stoji u kodu strane), pa ga nije potrebno čuvati
-kao tajnu. Poruke sa forme prolaze kroz Web3Forms — to treba navesti u
-politici privatnosti.
+kao tajnu. Mejl pošiljaoca Web3Forms sam postavlja kao adresu za odgovor.
+
+Za politiku privatnosti: Web3Forms ne čuva sadržaj poruka, samo ih prosleđuje
+na mejl; serveri su u SAD, a tehničke zapise briše povremeno (oko dva
+meseca). Ako se pojavi spam, Web3Forms besplatno nudi hCaptcha (deljeni ključ,
+uključuje se u njihovoj kontrolnoj tabli).
 
 ## Šta još čeka
 
-1. **Biografija stomatologa** — tekst, fotografija i pismena saglasnost.
-   Do tada strana `/o-autoru` jasno pokazuje da čeka sadržaj.
+1. **Tekstovi na strani O autoru** — biografija, odakle ideja i uloga u
+   aplikaciji. Ime i fotografija su objavljeni uz saglasnost stomatologa.
 2. **Ključ za kontakt formu** (Web3Forms) i rečenica o formi u politici
    privatnosti — vidi „Kontakt forma”.
-3. **Tekstovi o zubima** u sekciji „Izbor zuba” (uloga, koreni, nicanje) —
-   treba da ih pregleda stomatolog.
-4. **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
-   aplikacija ne izađe za iOS.
+3. **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
+   aplikacija ne izađe za iOS; iOS verzija je u izradi.
