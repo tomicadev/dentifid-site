@@ -2,9 +2,8 @@ import * as THREE from "three";
 import { DONJI_DZEP, DUGMAD, DZEP, KROJ, OKVIR_KROJA, OKVIR_REVERA } from "./mantil";
 
 /**
- * Teksture se crtaju na platnu u pregledaču: šavovi i senke na tkanini, traka
- * sa natpisom, kartica sa slikom i imenom. Nema fajlova koji se preuzimaju,
- * osim logotipa i fotografije za karticu.
+ * Teksture se crtaju na platnu u pregledaču: šavovi i senke na tkanini, bluza,
+ * unutrašnjost okovratnika i traka sa natpisom. Ništa se ne preuzima.
  */
 
 function platno(sirina: number, visina: number) {
@@ -32,8 +31,11 @@ function stepLinija(ctx: CanvasRenderingContext2D, debljina: number, crta: numbe
   ctx.lineCap = "round";
 }
 
-/** Šavovi i senke koje rever, džepovi i dugmad bacaju na telo mantila. */
-export function teksturaTela() {
+/**
+ * Šavovi i senke koje rever, kragna, džepovi i dugmad bacaju na telo mantila.
+ * Gornji džep i dugmad su samo na desnoj polovini, pa i njihove senke.
+ */
+export function teksturaTela({ desna }: { desna: boolean }) {
   const O = OKVIR_KROJA;
   const s = 1024 / (O.x1 - O.x0);
   const { c, ctx } = platno(1024, Math.round((O.y1 - O.y0) * s));
@@ -77,7 +79,7 @@ export function teksturaTela() {
     ctx.fill();
   });
 
-  for (const d of [DZEP, DONJI_DZEP]) {
+  for (const d of desna ? [DZEP, DONJI_DZEP] : [DONJI_DZEP]) {
     saSenkom(18, 6, 9, 0.2, () => {
       ctx.beginPath();
       ctx.roundRect(px(d.x0), py(d.gore), (d.x1 - d.x0) * s, (d.gore - d.dole) * s, [0, 0, 26, 26]);
@@ -85,7 +87,7 @@ export function teksturaTela() {
     });
   }
 
-  for (const [x, y] of DUGMAD) {
+  for (const [x, y] of desna ? DUGMAD : []) {
     saSenkom(7, 3, 4, 0.28, () => {
       ctx.beginPath();
       ctx.arc(px(x), py(y), 0.036 * s, 0, Math.PI * 2);
@@ -255,123 +257,66 @@ export function teksturaSenke() {
   return tekstura(c);
 }
 
-function ucitajSliku(izvor: string) {
-  return new Promise<HTMLImageElement | undefined>((resolve) => {
-    const slika = new Image();
-    slika.decoding = "async";
-    slika.onload = () => resolve(slika);
-    slika.onerror = () => resolve(undefined);
-    slika.src = izvor;
-  });
+/** Tamnoplava bluza sa rebrastim rubom oko izreza. */
+export function teksturaBluze() {
+  const { c, ctx } = platno(512, 512);
+  const osnova = ctx.createLinearGradient(0, 0, 0, 512);
+  osnova.addColorStop(0, "#27447a");
+  osnova.addColorStop(1, "#1d3563");
+  ctx.fillStyle = osnova;
+  ctx.fillRect(0, 0, 512, 512);
+  // rebrasti rub izreza: gornjih 0,055 jedinica od ukupno 1,5
+  const rub = Math.round((0.055 / 1.5) * 512);
+  ctx.fillStyle = "#1a2f59";
+  ctx.fillRect(0, 0, 512, rub);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.07)";
+  for (let x = 0; x < 512; x += 4) ctx.fillRect(x, 0, 1.5, rub);
+  ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+  ctx.fillRect(0, rub, 512, 2);
+  return tekstura(c);
 }
 
 /**
- * Identifikaciona kartica: logotip, velika fotografija, ime i titula. Dok
- * fotografija ne stigne, na njenom mestu je silueta.
+ * Unutrašnjost oko vrata: dole zadnji deo bluze sa rebrastim rubom, gore
+ * unutrašnja strana kragne. Sve je malo tamnije, jer je u senci.
  */
-export function napraviKarticu(ime: string, titula: string, slika?: string) {
-  const W = 640;
-  const H = 960;
+export function teksturaUnutrasnjosti() {
+  const W = 512;
+  const H = 256;
   const { c, ctx } = platno(W, H);
-  const t = tekstura(c);
+  // v ide od y 1,42 (dole) do 1,97 (gore); na platnu je gore y 1,97
+  const py = (y: number) => ((1.97 - y) / 0.55) * H;
 
-  const nacrtaj = (logo?: HTMLImageElement, foto?: HTMLImageElement) => {
-    ctx.clearRect(0, 0, W, H);
+  const bluza = ctx.createLinearGradient(0, py(1.72), 0, H);
+  bluza.addColorStop(0, "#1f3a6c");
+  bluza.addColorStop(1, "#11213f");
+  ctx.fillStyle = bluza;
+  ctx.fillRect(0, py(1.72), W, H - py(1.72));
 
-    const pozadina = ctx.createLinearGradient(0, 0, 0, H);
-    pozadina.addColorStop(0, "#ffffff");
-    pozadina.addColorStop(1, "#eef4fc");
-    ctx.fillStyle = pozadina;
-    ctx.beginPath();
-    ctx.roundRect(0, 0, W, H, 34);
-    ctx.fill();
+  ctx.fillStyle = "#18305c";
+  ctx.fillRect(0, py(1.745), W, py(1.705) - py(1.745));
+  ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
+  for (let x = 0; x < W; x += 4) ctx.fillRect(x, py(1.745), 1.5, py(1.705) - py(1.745));
 
-    if (logo) {
-      const sirina = 236;
-      const visina = (sirina * logo.naturalHeight) / logo.naturalWidth;
-      ctx.drawImage(logo, (W - sirina) / 2, 42, sirina, visina);
-    }
+  const kragna = ctx.createLinearGradient(0, 0, 0, py(1.745));
+  kragna.addColorStop(0, "#f4f7fb");
+  kragna.addColorStop(1, "#d9e1ec");
+  ctx.fillStyle = kragna;
+  ctx.fillRect(0, 0, W, py(1.745));
 
-    const linija = ctx.createLinearGradient(60, 0, W - 60, 0);
-    linija.addColorStop(0, "#0e62e0");
-    linija.addColorStop(0.6, "#2e90ff");
-    linija.addColorStop(1, "#00d4ff");
-    ctx.fillStyle = linija;
-    ctx.beginPath();
-    ctx.roundRect(60, 142, W - 120, 5, 3);
-    ctx.fill();
+  stepLinija(ctx, 2, 10);
+  ctx.beginPath();
+  ctx.moveTo(0, py(1.93));
+  ctx.lineTo(W, py(1.93));
+  ctx.stroke();
 
-    // okvir za fotografiju
-    const fx = 48;
-    const fy = 176;
-    const fw = W - 96;
-    const fh = 552;
-    ctx.save();
-    ctx.beginPath();
-    ctx.roundRect(fx, fy, fw, fh, 28);
-    ctx.clip();
-    if (foto) {
-      const razmera = Math.max(fw / foto.naturalWidth, fh / foto.naturalHeight);
-      const sw = fw / razmera;
-      const sh = fh / razmera;
-      ctx.drawImage(foto, (foto.naturalWidth - sw) / 2, (foto.naturalHeight - sh) / 3, sw, sh, fx, fy, fw, fh);
-    } else {
-      const polje = ctx.createLinearGradient(0, fy, 0, fy + fh);
-      polje.addColorStop(0, "#e9f0fa");
-      polje.addColorStop(1, "#d3e1f4");
-      ctx.fillStyle = polje;
-      ctx.fillRect(fx, fy, fw, fh);
-      // silueta u belom mantilu
-      ctx.fillStyle = "#bccfe8";
-      ctx.beginPath();
-      ctx.arc(W / 2, fy + 232, 96, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(fx + 46, fy + fh);
-      ctx.bezierCurveTo(fx + 60, fy + 420, fx + 150, fy + 372, W / 2, fy + 372);
-      ctx.bezierCurveTo(W - fx - 150, fy + 372, W - fx - 60, fy + 420, W - fx - 46, fy + fh);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = "#f7faff";
-      ctx.beginPath();
-      ctx.moveTo(W / 2 - 150, fy + fh);
-      ctx.lineTo(W / 2 - 92, fy + 392);
-      ctx.lineTo(W / 2 - 20, fy + fh);
-      ctx.closePath();
-      ctx.moveTo(W / 2 + 150, fy + fh);
-      ctx.lineTo(W / 2 + 92, fy + 392);
-      ctx.lineTo(W / 2 + 20, fy + fh);
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-
-    ctx.textAlign = "center";
-    ctx.textBaseline = "alphabetic";
-    ctx.fillStyle = "#0b1a3a";
-    ctx.font = "700 50px Inter, system-ui, sans-serif";
-    ctx.fillText(ime, W / 2, 812);
-    ctx.fillStyle = "#0e62e0";
-    ctx.font = "600 32px Inter, system-ui, sans-serif";
-    ctx.fillText(titula, W / 2, 864);
-
-    ctx.fillStyle = linija;
-    ctx.beginPath();
-    ctx.roundRect(W / 2 - 40, 900, 80, 6, 3);
-    ctx.fill();
-
-    t.needsUpdate = true;
-  };
-
-  nacrtaj();
-  const gotovo = Promise.all([
-    document.fonts.load("700 50px Inter"),
-    document.fonts.load("600 32px Inter"),
-    ucitajSliku("/svg/logo.svg"),
-    slika ? ucitajSliku(slika) : Promise.resolve(undefined),
-  ])
-    .then(([, , logo, foto]) => nacrtaj(logo, foto))
-    .catch(() => undefined);
-
-  return { tekstura: t, gotovo };
+  // bočni delovi su dublje u senci
+  const strane = ctx.createLinearGradient(0, 0, W, 0);
+  strane.addColorStop(0, "rgba(10, 24, 50, 0.3)");
+  strane.addColorStop(0.25, "rgba(10, 24, 50, 0)");
+  strane.addColorStop(0.75, "rgba(10, 24, 50, 0)");
+  strane.addColorStop(1, "rgba(10, 24, 50, 0.3)");
+  ctx.fillStyle = strane;
+  ctx.fillRect(0, 0, W, H);
+  return tekstura(c);
 }

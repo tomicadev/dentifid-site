@@ -3,10 +3,10 @@ import * as THREE from "three";
 /**
  * Kroj polovine lekarskog mantila i pravila po kojima se savija i leprša.
  *
- * Vidi se desna polovina gledano od nosioca — na ekranu levo, sa prednjom
- * ivicom okrenutom ka tekstu. Kroj je ravan: x ide od bočnog šava (levo) do
- * prednje ivice (desno), y od poruba do vrata. `osnova` ga savija oko
- * zamišljenog trupa, a `vetar` dodaje lepršanje: grudi miruju, porub i
+ * Kroj opisuje levu polovinu na ekranu; desna je njen odraz. Kroj je ravan:
+ * x ide od bočnog šava (levo) do prednje ivice (desno), y od poruba do vrata.
+ * `osnova` ga savija oko zamišljenog trupa, a `vetar` dodaje lepršanje: grudi
+ * miruju, porub i
  * prednja ivica se talasaju. Svi delovi — telo, rever, džepovi, dugmad —
  * prolaze kroz iste dve funkcije, pa se pomeraju zajedno.
  */
@@ -38,9 +38,9 @@ export const OKVIR_REVERA = { x0: -0.05, x1: 0.6, y0: 0.3, y1: 1.75 };
 export const DZEP = { x0: -0.46, x1: -0.06, gore: 0.95, dole: 0.5, zaobljenje: 0.05 };
 export const DONJI_DZEP = { x0: -0.6, x1: 0.06, gore: -0.66, dole: -1.2, zaobljenje: 0.06 };
 export const DUGMAD: Par[] = [
-  [0.47, -0.62],
-  [0.47, -1.12],
-  [0.47, -1.62],
+  [0.5, -0.95],
+  [0.5, -1.36],
+  [0.5, -1.77],
 ];
 
 const R = 1.7;
@@ -392,40 +392,135 @@ export function napraviKragnu(duz = 40, sir = 8) {
   return geometrija;
 }
 
-// --- traka oko vrata -----------------------------------------------------------
+// --- ceo mantil: sredina, bluza, unutrašnjost okovratnika ------------------------
 
-/** Mesto na kome kartica visi o traci, u prostoru mantila. */
-export function mestoKopce() {
-  return naKroju(0.3, 0.62, 0.09);
+/**
+ * Ravan preko koje se leva polovina preslikava u desnu. Malo je levo od prednje
+ * ivice (0,58), pa desna polovina preklapa levu, kao na zakopčanom mantilu.
+ */
+export const SREDINA = 0.54;
+
+/** Tačka na telu merena od sredine: dx levo (−) ili desno (+), sa uvlačenjem. */
+function naTelu(dx: number, y: number, uvuceno: number, izlaz: THREE.Vector3) {
+  const th = dx / R;
+  const c = Math.cos(th);
+  const grudi = 0.08 * Math.exp(-(((y - 0.85) / 0.55) ** 2)) * c;
+  const nad = Math.max(0, y - 1.3);
+  return izlaz.set(SREDINA + R * Math.sin(th), y, DUBINA * R * c + grudi - 0.9 * nad * nad - uvuceno);
+}
+
+/** Visina okruglog izreza bluze na udaljenosti dx od sredine. */
+function izrezBluze(dx: number) {
+  const t = Math.min(Math.abs(dx) / 0.34, 1);
+  return 1.6 + 0.15 * t * t;
 }
 
 /**
- * Traka ide od kopče uz grudi, preko revera do vrata, pa se preko ramena gubi
- * ispod kragne. Pljosnata je, pa je lice trake uvek okrenuto od tela.
+ * Bluza ispod mantila: vidi se samo u V-izrezu između revera. Leži malo iza
+ * prednjeg dela mantila, pa je mantil svuda drugde pokriva.
  */
-export function napraviTraku(sirina = 0.08, koraka = 90) {
-  const m = novoMesto();
+export function napraviBluzu(redova = 30, kolona = 40) {
+  const broj = (redova + 1) * (kolona + 1);
+  const pozicije = new Float32Array(broj * 3);
+  const uvs = new Float32Array(broj * 2);
+  const p = new THREE.Vector3();
+  for (let i = 0; i <= redova; i += 1) {
+    const v = i / redova;
+    for (let j = 0; j <= kolona; j += 1) {
+      const u = j / kolona;
+      const dx = lerp(-0.52, 0.52, u);
+      const gore = izrezBluze(dx);
+      const y = lerp(gore, 0.18, v);
+      naTelu(dx, y, 0.045, p);
+      const k = i * (kolona + 1) + j;
+      pozicije[3 * k] = p.x;
+      pozicije[3 * k + 1] = p.y;
+      pozicije[3 * k + 2] = p.z;
+      uvs[2 * k] = u;
+      // tekstura se meri od ivice izreza naniže, da rebrasti rub uvek prati izrez
+      uvs[2 * k + 1] = 1 - (gore - y) / 1.5;
+    }
+  }
+  return mreza(pozicije, uvs, redova, kolona);
+}
+
+/**
+ * Unutrašnjost oko vrata: kroz izrez se vidi zadnji deo bluze i unutrašnja
+ * strana kragne mantila, kao na snimku odeće bez lutke.
+ */
+export function napraviUnutrasnjost(redova = 12, kolona = 40) {
+  const vrat = osnova(KROJ.vrat[0], KROJ.vrat[1], novoMesto());
+  const r0 = SREDINA - vrat.x;
+  const broj = (redova + 1) * (kolona + 1);
+  const pozicije = new Float32Array(broj * 3);
+  const uvs = new Float32Array(broj * 2);
+  for (let i = 0; i <= redova; i += 1) {
+    const v = i / redova;
+    const y = lerp(1.97, 1.42, v);
+    const r = r0 + 0.03 * (y - 1.42);
+    for (let j = 0; j <= kolona; j += 1) {
+      const u = j / kolona;
+      const f = lerp(-1.75, 1.75, u);
+      const k = i * (kolona + 1) + j;
+      pozicije[3 * k] = SREDINA + r * Math.sin(f);
+      pozicije[3 * k + 1] = y;
+      pozicije[3 * k + 2] = vrat.z - r * Math.cos(f);
+      uvs[2 * k] = u;
+      uvs[2 * k + 1] = 1 - v;
+    }
+  }
+  return mreza(pozicije, uvs, redova, kolona);
+}
+
+function mreza(pozicije: Float32Array, uvs: Float32Array, redova: number, kolona: number) {
+  const indeksi: number[] = [];
+  for (let i = 0; i < redova; i += 1) {
+    for (let j = 0; j < kolona; j += 1) {
+      const a = i * (kolona + 1) + j;
+      const b = a + kolona + 1;
+      indeksi.push(a, b, a + 1, b, b + 1, a + 1);
+    }
+  }
+  const geometrija = new THREE.BufferGeometry();
+  geometrija.setAttribute("position", new THREE.BufferAttribute(pozicije, 3));
+  geometrija.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+  geometrija.setIndex(indeksi);
+  geometrija.computeVertexNormals();
+  return geometrija;
+}
+
+// --- traka oko vrata -----------------------------------------------------------
+
+/** Mesto na kome kartica visi o traci: na sredini grudi, ispred mantila. */
+export function mestoKopce() {
+  return naKroju(SREDINA, 0.62, 0.09);
+}
+
+/**
+ * Levi krak trake: od kopče kroz V-izrez po bluzi do vrata, pa ispod kragne
+ * unazad, iza unutrašnjosti okovratnika. Desni krak je njegov odraz. Traka je
+ * pljosnata, pa joj je lice uvek okrenuto od tela.
+ */
+export function napraviTraku(sirina = 0.075, koraka = 90) {
   const vrat = osnova(KROJ.vrat[0], KROJ.vrat[1], novoMesto());
   const tacke: THREE.Vector3[] = [];
   const normale: THREE.Vector3[] = [];
-  const dodaj = (x: number, y: number, odmak: number) => {
-    osnova(x, y, m);
-    tacke.push(new THREE.Vector3(m.x + m.nx * odmak, m.y + m.ny * odmak, m.z + m.nz * odmak));
-    normale.push(new THREE.Vector3(m.nx, m.ny, m.nz));
+  const naBluzi = (dx: number, y: number, odmak: number) => {
+    tacke.push(naTelu(dx, y, 0.045 - odmak, new THREE.Vector3()));
+    normale.push(new THREE.Vector3(Math.sin(dx / R) * DUBINA, 0, Math.cos(dx / R)).normalize());
   };
 
   tacke.push(mestoKopce().add(new THREE.Vector3(0, 0.05, 0)));
-  normale.push(new THREE.Vector3(-0.09, 0, 1).normalize());
-  dodaj(0.32, 0.95, 0.075);
-  dodaj(0.28, 1.28, 0.07);
-  dodaj(0.22, 1.56, 0.045);
-  // preko ramena traka ide unazad i nestaje iza mantila, oko vrata
-  tacke.push(new THREE.Vector3(vrat.x - 0.02, 1.74, vrat.z - 0.04));
-  normale.push(new THREE.Vector3(-0.2, 0.7, 0.7).normalize());
-  tacke.push(new THREE.Vector3(vrat.x - 0.06, 1.67, vrat.z - 0.22));
-  normale.push(new THREE.Vector3(-0.3, 1, 0.1).normalize());
-  tacke.push(new THREE.Vector3(vrat.x - 0.1, 1.38, vrat.z - 0.42));
-  normale.push(new THREE.Vector3(-0.3, 0.6, -0.7).normalize());
+  normale.push(new THREE.Vector3(0, 0, 1));
+  naBluzi(-0.06, 0.95, 0.03);
+  naBluzi(-0.17, 1.3, 0.025);
+  naBluzi(-0.27, 1.6, 0.02);
+  tacke.push(new THREE.Vector3(vrat.x + 0.02, 1.74, vrat.z));
+  normale.push(new THREE.Vector3(-0.4, 0.3, 0.85).normalize());
+  tacke.push(new THREE.Vector3(vrat.x - 0.03, 1.76, vrat.z - 0.18));
+  normale.push(new THREE.Vector3(-0.9, 0.3, 0.3).normalize());
+  tacke.push(new THREE.Vector3(vrat.x + 0.03, 1.76, vrat.z - 0.36));
+  normale.push(new THREE.Vector3(-0.8, 0.2, -0.5).normalize());
 
   const kriva = new THREE.CatmullRomCurve3(tacke);
   const duzina = kriva.getLength();

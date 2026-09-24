@@ -6,5 +6,5 @@ export const AUTOR = {
   ime: "Matija Lakićević",
   titula: "Doktor stomatologije",
   /** Put do fotografije u `public/`; dok je nema, kartica pokazuje siluetu. */
-  slika: undefined as string | undefined,
+  slika: "/img/autor.webp" as string | undefined,
 };

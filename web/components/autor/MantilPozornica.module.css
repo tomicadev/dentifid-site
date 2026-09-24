@@ -1,15 +1,17 @@
+/* Izolovan sloj: HTML lice kartice ne može da iskoči iznad zaglavlja. */
 .pozornica {
   position: relative;
+  isolation: isolate;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  max-height: min(78svh, 46rem);
+  aspect-ratio: 1;
+  max-height: min(80svh, 44rem);
 }
 
 /* Oreol kao svetlo stomatološke lampe: beo mantil se na njemu jasno odvaja
    od bele pozadine strane. */
 .oreol {
   position: absolute;
-  inset: 3% 0 9%;
+  inset: 2% 4% 8%;
   border-radius: 50%;
   background: radial-gradient(
     closest-side,
