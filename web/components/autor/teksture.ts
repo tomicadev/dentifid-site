@@ -332,24 +332,25 @@ function ucitajSliku(izvor: string) {
 }
 
 /**
- * Lice identifikacione kartice, nacrtano u trostrukoj rezoluciji rasporeda
- * 320 × 480, da slova ostanu oštra i kad je kartica mala. Crta se u samoj
- * sceni, pa se lice i pločica pomeraju kao jedno, u svakom pregledaču.
+ * Lice identifikacione kartice, raspored 320 × 480. Crta se u veličini u kojoj
+ * se kartica stvarno vidi na ekranu (`visina` u pikselima), bez umanjenih
+ * kopija koje bi je zamutile, pa su slova oštra kao u HTML-u. Lice je deo same
+ * scene, pa se sa pločicom pomera kao jedno.
  */
-export function napraviLiceKartice(ime: string, titula: string, slika?: string) {
-  const k = 3;
-  const W = 320 * k;
-  const H = 480 * k;
+export function napraviLiceKartice(ime: string, titula: string, slika: string | undefined, visina: number) {
+  const k = visina / 480;
+  const W = Math.round(320 * k);
+  const H = Math.round(480 * k);
   const { c, ctx } = platno(W, H);
   const t = tekstura(c);
-  t.anisotropy = 16;
+  t.generateMipmaps = false;
+  t.minFilter = THREE.LinearFilter;
+  t.magFilter = THREE.LinearFilter;
+  ctx.imageSmoothingQuality = "high";
 
   const nacrtaj = (logo?: HTMLImageElement, foto?: HTMLImageElement) => {
     ctx.clearRect(0, 0, W, H);
     ctx.save();
-    ctx.beginPath();
-    ctx.roundRect(0, 0, W, H, 20 * k);
-    ctx.clip();
 
     const pozadina = ctx.createLinearGradient(0, 0, 0, H);
     pozadina.addColorStop(0, "#ffffff");
@@ -447,12 +448,6 @@ export function napraviLiceKartice(ime: string, titula: string, slika?: string) 
     ctx.fillRect(0, 0, W, H);
     ctx.restore();
 
-    ctx.strokeStyle = "rgba(14, 40, 90, 0.1)";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.roundRect(1.5, 1.5, W - 3, H - 3, 20 * k - 1.5);
-    ctx.stroke();
-
     t.needsUpdate = true;
   };
 
@@ -467,4 +462,30 @@ export function napraviLiceKartice(ime: string, titula: string, slika?: string) 
     .catch(() => undefined);
 
   return { tekstura: t, gotovo };
+}
+
+/**
+ * Zaobljen pravougaonik za lice kartice, sa koordinatama teksture od 0 do 1.
+ * Uglovi su deo oblika, pa tekstura nema providnih delova ni tamnog ruba.
+ */
+export function oblikKartice(sirina: number, visina: number, r: number) {
+  const x = -sirina / 2;
+  const y = -visina / 2;
+  const s = new THREE.Shape();
+  s.moveTo(x + r, y);
+  s.lineTo(x + sirina - r, y);
+  s.quadraticCurveTo(x + sirina, y, x + sirina, y + r);
+  s.lineTo(x + sirina, y + visina - r);
+  s.quadraticCurveTo(x + sirina, y + visina, x + sirina - r, y + visina);
+  s.lineTo(x + r, y + visina);
+  s.quadraticCurveTo(x, y + visina, x, y + visina - r);
+  s.lineTo(x, y + r);
+  s.quadraticCurveTo(x, y, x + r, y);
+  const g = new THREE.ShapeGeometry(s, 10);
+  const pozicije = g.getAttribute("position");
+  const uv = g.getAttribute("uv");
+  for (let i = 0; i < uv.count; i += 1) {
+    uv.setXY(i, (pozicije.getX(i) - x) / sirina, (pozicije.getY(i) - y) / visina);
+  }
+  return g;
 }

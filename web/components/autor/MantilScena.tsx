@@ -31,6 +31,7 @@ import {
 } from "./mantil";
 import {
   napraviLiceKartice,
+  oblikKartice,
   teksturaBluze,
   teksturaDzepa,
   teksturaKragne,
@@ -64,7 +65,7 @@ export default function MantilScena({ aktivno, mirno, onSpremno, ...ostalo }: Pr
   return (
     <Canvas
       camera={{ position: [0, -0.1, 8.3], fov: 30 }}
-      dpr={[1, 1.75]}
+      dpr={[1.5, 2]}
       shadows
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       frameloop={mirno ? "demand" : aktivno ? "always" : "never"}
@@ -243,7 +244,20 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
   const materijali = useMemo(napraviMaterijale, []);
 
   // Lice kartice je tekstura na samoj pločici, pa se nikad ne odvaja od nje.
-  const lice = useMemo(() => napraviLiceKartice(ime, titula, slika), [ime, titula, slika]);
+  // Crta se u veličini u kojoj se kartica vidi (uz malu rezervu), da bude oštra.
+  const visinaPlatna = useThree((st) => st.size.height);
+  const gustina = useThree((st) => st.viewport.dpr);
+  const pikselaPoJedinici = visinaPlatna / (2 * 7.2 * Math.tan((15 * Math.PI) / 180));
+  const visinaLica = Math.min(
+    2048,
+    Math.max(384, Math.round((1.35 * pikselaPoJedinici * gustina * 1.3) / 48) * 48),
+  );
+  const lice = useMemo(
+    () => napraviLiceKartice(ime, titula, slika, visinaLica),
+    [ime, titula, slika, visinaLica],
+  );
+  const oblikLica = useMemo(() => oblikKartice(0.9, 1.35, 0.05), []);
+  useEffect(() => () => oblikLica.dispose(), [oblikLica]);
   const liceMaterijal = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -252,8 +266,6 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
         emissiveMap: lice.tekstura,
         emissiveIntensity: 0.45,
         roughness: 0.5,
-        transparent: true,
-        alphaTest: 0.5,
       }),
     [lice],
   );
@@ -394,9 +406,7 @@ function Mantil({ ime, titula, slika, mirno, stanje }: MantilProps) {
               material={materijali.plastika}
               castShadow
             />
-            <mesh position={[0, -0.735, 0.0105]} material={liceMaterijal}>
-              <planeGeometry args={[0.9, 1.35]} />
-            </mesh>
+            <mesh position={[0, -0.735, 0.0105]} geometry={oblikLica} material={liceMaterijal} />
           </group>
         </group>
       </group>
