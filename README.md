@@ -121,7 +121,9 @@ uključuje se u njihovoj kontrolnoj tabli).
 
 ## Šta još čeka
 
-1. **Tekstovi na strani O autoru** — biografija, odakle ideja i uloga u
-   aplikaciji. Ime i fotografija su objavljeni uz saglasnost stomatologa.
-2. **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
-   aplikacija ne izađe za iOS; iOS verzija je u izradi.
+- **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
+  aplikacija ne izađe za iOS; iOS verzija je u izradi.
+
+Strana O autoru je završena 25.09.2026: ime, fotografija i tekstovi
+(biografija, odakle ideja, uloga u aplikaciji) objavljeni su uz saglasnost
+stomatologa, doslovno kako ih je poslao (`web/lib/autor.ts`).
