@@ -50,7 +50,7 @@ export default function Prica() {
             <Otkrij className={stil.fotoMesto} pomeraj={34}>
               <figure className={stil.fotografija}>
                 <Spajalica />
-                <img src={AUTOR.portret} width={720} height={900} alt={AUTOR.ime} loading="lazy" decoding="async" />
+                <img src={AUTOR.portret} width={640} height={800} alt={AUTOR.ime} loading="lazy" decoding="async" />
                 <figcaption>
                   {AUTOR.ime}
                   <span>{AUTOR.titula}</span>
