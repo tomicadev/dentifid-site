@@ -149,10 +149,11 @@
   box-shadow: 0 0 0 4px rgb(0 122 255 / 14%);
 }
 
-.polje input:focus + label,
-.polje input:not(:placeholder-shown) + label,
-.polje textarea:focus + label,
-.polje textarea:not(:placeholder-shown) + label {
+/* „~" umesto „+": kod poruke između polja i natpisa stoji brojač znakova. */
+.polje input:focus ~ label,
+.polje input:not(:placeholder-shown) ~ label,
+.polje textarea:focus ~ label,
+.polje textarea:not(:placeholder-shown) ~ label {
   transform: translateY(-0.6rem) scale(0.8);
   color: var(--plava-tekst);
   font-weight: 600;
