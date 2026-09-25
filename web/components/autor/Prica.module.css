@@ -1,0 +1,519 @@
+.prica {
+  padding-block: var(--r7) var(--ritam);
+  scroll-margin-top: 5rem;
+}
+
+/* --- list kartona ------------------------------------------------------------ */
+
+.karton {
+  position: relative;
+  max-width: 72rem;
+  margin: 2.6rem auto 0;
+  padding:
+    clamp(1.75rem, 4vw, 3.25rem) clamp(1.25rem, 4vw, 3.5rem) clamp(1.75rem, 4vw, 3rem)
+    clamp(1.6rem, 6vw, 5rem);
+  border-radius: 0 28px 28px 28px;
+  border: 1px solid rgb(255 255 255 / 95%);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 55%, #f6f9fd 100%);
+  box-shadow:
+    0 2px 4px rgb(16 32 64 / 4%),
+    0 34px 80px -34px rgb(16 32 64 / 24%);
+}
+
+/* margina kao na obrascu: tanka plava linija niz ceo list */
+.karton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(0.8rem, 3.6vw, 3.2rem);
+  width: 2px;
+  background: linear-gradient(180deg, rgb(14 98 224 / 18%), rgb(14 98 224 / 6%));
+}
+
+/* jezičak fascikle, spojen sa listom u gornjem levom uglu */
+.jezicak {
+  position: absolute;
+  bottom: 100%;
+  left: -1px;
+  padding: 0.62rem 1.4rem 0.5rem;
+  border-radius: 16px 16px 0 0;
+  border: 1px solid rgb(255 255 255 / 95%);
+  border-bottom: 0;
+  background: #ffffff;
+  color: var(--plava-tekst);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 -10px 20px -14px rgb(16 32 64 / 26%);
+}
+
+/* rupe za registrator */
+.rupe {
+  position: absolute;
+  left: clamp(0.3rem, 1.3vw, 1.15rem);
+  top: 16%;
+  bottom: 16%;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rupe i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--pozadina);
+  box-shadow: inset 0 2px 3px rgb(16 32 64 / 24%);
+}
+
+@media (min-width: 48rem) {
+  .rupe {
+    display: flex;
+  }
+}
+
+/* pečat kao otisak plavog mastila */
+.pecat {
+  position: absolute;
+  top: -3.1rem;
+  right: 0.6rem;
+  width: 4.6rem;
+  color: var(--plava-tamna);
+  opacity: 0.5;
+  transform: rotate(-12deg);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+@media (min-width: 48rem) {
+  .pecat {
+    top: -1.4rem;
+    right: clamp(1.2rem, 4vw, 3rem);
+    width: clamp(6rem, 10vw, 7.5rem);
+  }
+}
+
+/* --- zaglavlje kao obrazac ---------------------------------------------------- */
+
+.zaglavlje {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--r4) var(--r5);
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .zaglavlje {
+    padding-right: clamp(6rem, 12vw, 9.5rem);
+  }
+}
+
+@media (min-width: 62rem) {
+  .zaglavlje {
+    grid-template-columns: 1.3fr 1.25fr 0.6fr 1.35fr;
+  }
+}
+
+.zaglavlje div {
+  padding-bottom: 0.45rem;
+  border-bottom: 1px dashed rgb(129 141 159 / 50%);
+}
+
+.zaglavlje dt {
+  color: var(--prigusen);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.zaglavlje dd {
+  margin: 0.2rem 0 0;
+  color: var(--teget);
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+/* --- unosi ------------------------------------------------------------------- */
+
+.unos {
+  position: relative;
+  padding-block: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+.unos + .unos {
+  border-top: 1px dashed rgb(129 141 159 / 42%);
+}
+
+.oznaka {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--plava-tekst);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.oznaka span {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #eef5ff, #dceaff);
+  color: var(--plava-tamna);
+  letter-spacing: 0;
+}
+
+.naslov {
+  margin-top: var(--r3);
+  font-size: clamp(1.6rem, 1.15rem + 1.6vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.pasus {
+  max-width: 40rem;
+  margin-top: var(--r4);
+  color: #3a4550;
+  font-size: var(--f-telo);
+  line-height: 1.75;
+}
+
+/* prvi pasus posle naslova je malo krupniji, kao uvod */
+.naslov + .pasus {
+  margin-top: var(--r5);
+  color: var(--tekst);
+  font-size: 1.125rem;
+}
+
+/* --- biografija: tekst levo, fotografija desno ------------------------------------ */
+
+.biografija {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+  padding-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+@media (min-width: 56rem) {
+  .biografija {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+}
+
+.putanja {
+  display: grid;
+  gap: var(--r4);
+  margin-top: var(--r6);
+  list-style: none;
+}
+
+.putanja li {
+  position: relative;
+  padding-left: 1.9rem;
+}
+
+/* tačka na putanji, a do sledeće tačke vodi linija */
+.putanja li::before {
+  content: "";
+  position: absolute;
+  top: 0.35rem;
+  left: 0;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 3px var(--plava),
+    0 0 0 7px rgb(0 122 255 / 12%);
+}
+
+.putanja li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 1.45rem;
+  bottom: -0.8rem;
+  left: 0.34rem;
+  width: 2px;
+  background: linear-gradient(180deg, rgb(14 98 224 / 45%), rgb(14 98 224 / 12%));
+}
+
+@media (min-width: 40rem) {
+  .putanja {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--r5);
+  }
+
+  .putanja li {
+    padding-top: 1.6rem;
+    padding-left: 0;
+  }
+
+  .putanja li::before {
+    top: 0;
+  }
+
+  .putanja li:not(:last-child)::after {
+    top: 0.34rem;
+    bottom: auto;
+    left: 1.5rem;
+    right: calc(-1 * var(--r5) + 0.35rem);
+    width: auto;
+    height: 2px;
+    background: linear-gradient(90deg, rgb(14 98 224 / 45%), rgb(14 98 224 / 12%));
+  }
+}
+
+.godina {
+  display: block;
+  color: var(--plava-tamna);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.korak {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--prigusen);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.fotoMesto {
+  justify-self: center;
+  width: min(100%, 22rem);
+}
+
+/* fotografija prikačena spajalicom, kao na kartonu */
+.fotografija {
+  position: relative;
+  margin: 1.6rem 0 0;
+  padding: 0.7rem 0.7rem 0;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow:
+    0 2px 4px rgb(16 32 64 / 6%),
+    0 28px 54px -24px rgb(16 32 64 / 40%);
+  transform: rotate(2.2deg);
+  transition: transform var(--srednje) var(--ulaz);
+}
+
+.fotografija:hover {
+  transform: rotate(0.6deg) translateY(-3px);
+}
+
+.fotografija img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.fotografija figcaption {
+  display: grid;
+  padding: 0.75rem 0.3rem 0.9rem;
+  color: var(--teget);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.fotografija figcaption span {
+  color: var(--plava-tekst);
+  font-size: 0.8125rem;
+}
+
+.spajalica {
+  position: absolute;
+  top: -2.3rem;
+  left: 1.7rem;
+  z-index: 1;
+  width: 1.55rem;
+  height: auto;
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 2px 2px rgb(16 32 64 / 28%));
+}
+
+/* --- ideja: sijalica levo, tekst desno ------------------------------------------- */
+
+.ideja {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .ideja {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+
+.ilustracija {
+  justify-self: center;
+  width: min(100%, 14rem);
+}
+
+@media (min-width: 56rem) {
+  .ilustracija {
+    width: min(100%, 19rem);
+  }
+}
+
+.sijalica {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  animation: lebdi 6s ease-in-out infinite;
+}
+
+.sijalica [data-deo="zraci"] line {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: zrak 2.8s ease-in-out infinite;
+}
+
+.sijalica [data-deo="zraci"] line:nth-child(2) { animation-delay: 0.2s; }
+.sijalica [data-deo="zraci"] line:nth-child(3) { animation-delay: 0.4s; }
+.sijalica [data-deo="zraci"] line:nth-child(4) { animation-delay: 0.6s; }
+.sijalica [data-deo="zraci"] line:nth-child(5) { animation-delay: 0.8s; }
+.sijalica [data-deo="zraci"] line:nth-child(6) { animation-delay: 1s; }
+.sijalica [data-deo="zraci"] line:nth-child(7) { animation-delay: 1.2s; }
+
+.sijalica [data-deo="zar"] {
+  animation: zar 2.8s ease-in-out infinite;
+}
+
+.sijalica [data-deo="iskre"] path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: iskra 3.2s ease-in-out infinite;
+}
+
+.sijalica [data-deo="iskre"] path:nth-child(2) { animation-delay: 0.7s; }
+.sijalica [data-deo="iskre"] path:nth-child(3) { animation-delay: 1.4s; }
+.sijalica [data-deo="iskre"] path:nth-child(4) { animation-delay: 2.1s; }
+.sijalica [data-deo="iskre"] path:nth-child(5) { animation-delay: 2.6s; }
+
+@keyframes lebdi {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes zrak {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zar {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes iskra {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- uloga: tekst u sredini, preko providnog nacrta aplikacije --------------------- */
+
+.uloga {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  text-align: center;
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+.skica {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(36rem, 120%);
+  height: auto;
+  color: var(--plava-tamna);
+  opacity: 0.1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.ulogaTekst {
+  position: relative;
+  max-width: 42rem;
+}
+
+.ulogaTekst .oznaka {
+  justify-content: center;
+}
+
+.ulogaTekst .pasus {
+  margin-inline: auto;
+}
+
+.zavrsnica {
+  margin-top: var(--r6);
+  color: var(--tekst);
+  font-size: clamp(1.15rem, 1rem + 0.55vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.zavrsnica :global(.istaknuto) {
+  font-weight: 700;
+}
+
+/* --- kraj kartona ----------------------------------------------------------------- */
+
+.radnje {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--r3);
+  padding-top: var(--r6);
+  border-top: 1px dashed rgb(129 141 159 / 42%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sijalica,
+  .sijalica [data-deo="zraci"] line,
+  .sijalica [data-deo="zar"],
+  .sijalica [data-deo="iskre"] path {
+    animation: none;
+  }
+
+  .fotografija {
+    transition: none;
+  }
+}
