@@ -8,7 +8,7 @@ import { AUTOR, PRICA } from "@/lib/autor";
 
 /**
  * Priča o autoru kao list iz stomatološkog kartona: jezičak fascikle, rupe
- * za registrator i zaglavlje kao na obrascu. Ispod su tri unosa — biografija
+ * za registrator i pečat u uglu. Na listu su tri unosa — biografija
  * sa fotografijom prikačenom spajalicom, ideja sa sijalicom u obliku zuba i
  * uloga u aplikaciji preko providnog nacrta aplikacije.
  */
@@ -17,34 +17,13 @@ export default function Prica() {
     <section id="prica" className={stil.prica}>
       <div className="okvir">
         <article className={stil.karton}>
-          <span className={stil.jezicak}>Karton autora</span>
+          <span className={stil.jezicak}>O autoru</span>
           <span className={stil.rupe} aria-hidden="true">
             <i />
             <i />
             <i />
           </span>
           <Pecat />
-
-          <Otkrij>
-            <dl className={stil.zaglavlje}>
-              <div>
-                <dt>Ime i prezime</dt>
-                <dd>{AUTOR.ime}</dd>
-              </div>
-              <div>
-                <dt>Zvanje</dt>
-                <dd>{AUTOR.titula}</dd>
-              </div>
-              <div>
-                <dt>Rođen</dt>
-                <dd>{AUTOR.rodjen}</dd>
-              </div>
-              <div>
-                <dt>Uloga</dt>
-                <dd>Autor ideje za DentifID</dd>
-              </div>
-            </dl>
-          </Otkrij>
 
           <section className={`${stil.unos} ${stil.biografija}`} data-pratilac="95,30" aria-labelledby="prica-biografija">
             <Otkrij className={stil.tekstKolona}>

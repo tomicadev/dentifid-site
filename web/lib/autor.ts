@@ -5,7 +5,6 @@
 export const AUTOR = {
   ime: "Matija Lakićević",
   titula: "Doktor stomatologije",
-  rodjen: "2001.",
   /** Kvadratni isečak za karticu na mantilu. */
   slika: "/img/autor.webp" as string | undefined,
   /** Veća, uspravna fotografija za biografiju. */
@@ -21,11 +20,14 @@ export const PRICA = {
       "Višegodišnje obrazovanje u oblasti dentalne medicine omogućilo mu je da sagleda stomatologiju iz različitih perspektiva — od dentalne laboratorije i izrade protetskih nadoknada, do kliničkog rada i direktnog pristupa pacijentu.",
     ],
   },
-  /** Kratka putanja, izvedena iz biografije. */
+  /**
+   * Kratka putanja školovanja. Neprelomivi razmaci ( ) drže crtu uz reč
+   * pre nje i zanimanje u jednom redu.
+   */
   putanja: [
-    { godina: "2017.", opis: "Srednja medicinska škola „Sestre Ninković“, smer zubni tehničar" },
-    { godina: "2021.", opis: "Upis studija stomatologije" },
-    { godina: "2026.", opis: "Zvanje doktora stomatologije" },
+    { godina: "2017.", opis: "Srednja medicinska škola — Zubni tehničar" },
+    { godina: "2021.", opis: "Fakultet medicinskih nauka u Kragujevcu" },
+    { godina: "2026.", opis: "Doktor stomatologije" },
   ],
   ideja: {
     naslov: "Odakle je potekla ideja",
