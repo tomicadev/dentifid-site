@@ -100,7 +100,8 @@ Vilica na novom sajtu se ne generiše skriptom nego se računa u
 ## Kontakt forma
 
 Sajt nema server, pa formu šalje servis [Web3Forms](https://web3forms.com).
-Dok ključ nije podešen, forma otvara program za poštu sa već popunjenom
+Ključ je podešen 25.09.2026. i poruke stižu na mejl za koji je napravljen. Bez
+ključa (npr. u lokalnom radu) forma otvara program za poštu sa već popunjenom
 porukom, tako da radi i bez njega.
 
 1. Na web3forms.com upisati adresu na koju poruke treba da stižu
@@ -113,16 +114,14 @@ porukom, tako da radi i bez njega.
 Ključ je po prirodi javan (stoji u kodu strane), pa ga nije potrebno čuvati
 kao tajnu. Mejl pošiljaoca Web3Forms sam postavlja kao adresu za odgovor.
 
-Za politiku privatnosti: Web3Forms ne čuva sadržaj poruka, samo ih prosleđuje
-na mejl; serveri su u SAD, a tehničke zapise briše povremeno (oko dva
-meseca). Ako se pojavi spam, Web3Forms besplatno nudi hCaptcha (deljeni ključ,
+Politika privatnosti (repo `dentifid-legal`) od 25.09.2026. ima pasus o formi:
+Web3Forms ne čuva sadržaj poruka, samo ih prosleđuje na mejl; serveri su u
+SAD, a poruke se u sandučetu čuvaju najduže 7 dana posle prepiske. Ako se pojavi spam, Web3Forms besplatno nudi hCaptcha (deljeni ključ,
 uključuje se u njihovoj kontrolnoj tabli).
 
 ## Šta još čeka
 
 1. **Tekstovi na strani O autoru** — biografija, odakle ideja i uloga u
    aplikaciji. Ime i fotografija su objavljeni uz saglasnost stomatologa.
-2. **Ključ za kontakt formu** (Web3Forms) i rečenica o formi u politici
-   privatnosti — vidi „Kontakt forma”.
-3. **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
+2. **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
    aplikacija ne izađe za iOS; iOS verzija je u izradi.
