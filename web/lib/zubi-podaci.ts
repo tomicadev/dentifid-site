@@ -53,7 +53,7 @@ export function podaciZuba(zub: Zub): PodaciZuba {
     case "premolar":
       return {
         uloga:
-          "Prihvata hranu od očnjaka i drobi je, pre nego što je preuzmu kutnjaci.",
+          "Prihvata hranu od očnjaka i drobi je, pre nego što je preuzmu molari.",
         koreni: gore && prvi ? "Najčešće dva korena." : "Najčešće jedan koren.",
         nicanje: gore
           ? prvi
