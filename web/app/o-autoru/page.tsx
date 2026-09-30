@@ -25,16 +25,15 @@ export default function OAutoru() {
           />
 
           <Otkrij decu korak={0.09} className={stil.heroTekst}>
-            <p className="nadnaslov">O autoru ideje</p>
             <h1 className={stil.naslov}>
-              Doktor stomatologije koji je došao <span className="istaknuto">na ideju</span>
+              O autoru <span className="istaknuto">ideje</span>
             </h1>
             <p className={stil.potpis}>
               <span className={stil.crtica} aria-hidden="true" />
               {AUTOR.ime}
             </p>
             <p className={`uvod ${stil.uvod}`}>
-              Kako je nastala ideja za DentifID — iz ugla stomatologa koji ju je smislio.
+              Kako je nastala ideja za DentifID.
             </p>
             <a className={stil.dalje} href="#prica">
               Pročitajte priču

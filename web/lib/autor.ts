@@ -32,9 +32,8 @@ export const PRICA = {
   ideja: {
     naslov: "Odakle je potekla ideja",
     pasusi: [
-      "Ideja za DentifID nastala je iz želje da se savremena tehnologija približi stomatologiji i učini njen značaj dostupnijim širem broju ljudi.",
-      "Tokom studija stomatologije razvila se zamisao o stvaranju digitalnog rešenja koje bi moglo da bude prvi korak između korisnika i stomatološke ordinacije — da korisniku pomogne da prepozna značaj simptoma, bolje razume svoje oralno zdravlje i, što je najvažnije, pravovremeno potraži stručnu pomoć.",
-      "DentifID je tako nastao kao rezultat interesovanja za digitalizaciju, programiranje i razvoj inovativnih rešenja koja mogu imati praktičnu primenu u svakodnevnom životu.",
+      "Ideja za DentifID nastala je iz želje da se stomatologija i savremena tehnologija povežu i ostvare uticaj na svest o oralnom zdravlju.",
+      "Tokom studija stomatologije razvila se zamisao o stvaranju digitalnog rešenja koje bi moglo da bude prvi korak između ljudi i stomatološke ordinacije — da im pomogne da prepoznaju značaj simptoma, bolje razumeju svoje oralno zdravlje i, što je najvažnije, pravovremeno potraže stručnu pomoć.",
     ],
   },
   uloga: {

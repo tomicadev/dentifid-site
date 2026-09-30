@@ -41,9 +41,9 @@ export default function VilicaSekcija() {
             Dodirnite zub i <span className="istaknuto">saznajte više</span> o njemu
           </h2>
           <p className={`uvod ${stil.uvod}`}>
-            Svaki zub ima svoj zadatak — sekutići zasecaju, očnjaci kidaju, a kutnjaci
-            vrše završnu obradu hrane. Kada znate čemu koji zub služi, lakše primetite
-            promenu na vreme i bolje ga čuvate.
+            Svaki zub ima svoj zadatak — sekutići zasecaju, očnjaci kidaju, a premolari
+            i molari vrše završnu obradu hrane. Poznavanje uloge zuba omogućava ranu
+            dijagnostiku i pravovremenu reakciju.
           </p>
         </Otkrij>
 

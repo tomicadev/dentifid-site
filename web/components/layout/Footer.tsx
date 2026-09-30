@@ -20,8 +20,7 @@ export default function Footer() {
             </Link>
             <p className={stil.slogan}>
               DentifID pomaže da procenite koliko je hitan problem sa zubima i kome da se
-              javite. Nije medicinsko sredstvo i ne postavlja dijagnozu — konačnu reč uvek
-              daje stomatolog.
+              javite. Zvaničnu dijagnozu postavlja izabrani stomatolog.
             </p>
           </div>
 

@@ -26,8 +26,8 @@ export default function Hero() {
           </h1>
 
           <p className={`uvod ${stil.opis}`}>
-            DentifID kroz kratak upitnik daje procenu hitnosti i predlog specijaliste
-            stomatologije kome da se obratite.
+            DentifID kroz kratak upitnik daje procenu stanja i potencijalna rešenja, kao i
+            predloge specijalista stomatologije kojima možete da se obratite.
           </p>
 
           <div className={stil.radnje}>

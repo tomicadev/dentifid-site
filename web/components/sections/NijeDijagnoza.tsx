@@ -14,9 +14,8 @@ export default function NijeDijagnoza() {
             <h2 className={stil.naslov}>Šta aplikacija nije</h2>
             <p className={stil.tekst}>
               Aplikacija ne postavlja dijagnozu i ne zamenjuje pregled kod stomatologa.
-              Procena se oslanja isključivo na odgovore koje korisnik unese, a konačnu ocenu
-              vašeg stanja uvek daje stomatolog ili stručno medicinsko lice kod koga obavljate
-              pregled.
+              Procena se oslanja isključivo na odgovore koje korisnik unese, a zvaničnu dijagnozu
+              postavlja vaš izabrani stomatolog.
             </p>
             <p className={stil.hitno}>
               Ako imate otežano disanje ili gutanje, jak otok lica ili obilno krvarenje, ne

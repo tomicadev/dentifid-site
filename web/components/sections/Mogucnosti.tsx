@@ -14,7 +14,7 @@ const STAVKE = [
     ikona: Istorija,
     naslov: "Istorija procena",
     tekst:
-      "Svaka procena ostaje zapisana, sa datumom, rezultatom i odgovorima. Na pregledu stomatologu možete da pokažete kako se problem menjao.",
+      "Svaka procena ostaje zapisana, sa datumom, rezultatom i odgovorima. Na pregledu obavestite stomatologa o promenama i procenama vašeg stanja.",
   },
   {
     ikona: Karton,

@@ -10,7 +10,7 @@ const KORACI = [
     ikona: Upitnik,
     naslov: "Odgovorite na pitanja",
     tekst:
-      "Krenite od onoga što osećate: šta vas muči, od kada i koliko jako. Odrasli odgovaraju na 17 pitanja, a za decu roditelji popunjavaju prilagođen upitnik sa 12 pitanja.",
+      "Krenite od onoga što osećate. Odrasli odgovaraju na 17 pitanja, a za decu roditelji popunjavaju prilagođen upitnik sa 12 pitanja.",
   },
   {
     ikona: VilicaZnak,
@@ -22,7 +22,7 @@ const KORACI = [
     ikona: Prsten,
     naslov: "Pogledajte procenu",
     tekst:
-      "Dobijate ocenu od 1 do 10, nivo hitnosti i predlog kom specijalisti stomatologije da se obratite, pa znate da li je dovoljna redovna kontrola ili treba reagovati brže.",
+      "Dobijate ocenu od 1 do 10, nivo hitnosti i predlog kom specijalisti stomatologije da se obratite.",
   },
 ];
 
