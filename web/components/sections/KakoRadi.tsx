@@ -10,7 +10,7 @@ const KORACI = [
     ikona: Upitnik,
     naslov: "Odgovorite na pitanja",
     tekst:
-      "Krenite od onoga što osećate. Odrasli odgovaraju na 17 pitanja, a za decu roditelji popunjavaju prilagođen upitnik sa 12 pitanja.",
+      "Krenite od onog što osećate. Odrasli odgovaraju na 17 pitanja, a za decu roditelji popunjavaju prilagođen upitnik sa 12 pitanja.",
   },
   {
     ikona: VilicaZnak,

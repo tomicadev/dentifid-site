@@ -54,7 +54,7 @@ const NIVOI: Nivo[] = [
     raspon: "9–10",
     ime: "Urgentno stanje",
     poruka:
-      "Najviši nivo. Ako neki odgovor ukaže na znak hitnog stanja, aplikacija pre rezultata otvara ekran sa uputstvom i dugmetom za poziv hitne službe (194).",
+      "Najviši nivo. Ako neki odgovor ukaže na znak hitnog stanja, aplikacija pre rezultata otvara ekran sa uputstvom i tasterom za poziv hitne službe (194).",
     boja: "#ff3b30",
     bojaTekst: "#dd0c00",
     sjaj: "rgb(255 59 48 / 20%)",
