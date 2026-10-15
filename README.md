@@ -78,11 +78,16 @@ Ako se adresa ikad promeni, novi se pravi sa
 `python alati/napravi-qr.py <adresa>`; `metadataBase` u `web/app/layout.tsx`,
 `robots.ts` i `sitemap.ts` tada treba uskladiti sa njom.
 
+QR kod za iPhone u `web/public/img/qr-iphone.png` vodi pravo na poziv u
+TestFlight-u (`adresaTestFlight` u `web/lib/izdanje.ts`). Ako se poziv promeni:
+`python alati/napravi-qr.py <nova adresa> qr-iphone.png`.
+
 ## Kad izađe nova verzija aplikacije
 
 Dugme vodi na stalnu adresu `releases/latest/download/dentifid.apk`, pa se
 adresa i QR ne menjaju. Menja se samo `web/lib/izdanje.ts`: broj verzije,
-veličina i najstariji podržani Android.
+veličina i najstariji podržani Android. iPhone verzija stiže korisnicima kroz
+TestFlight, pa se na sajtu za nju ništa ne menja.
 
 ## Alati
 
@@ -119,10 +124,11 @@ Web3Forms ne čuva sadržaj poruka, samo ih prosleđuje na mejl; serveri su u
 SAD, a poruke se u sandučetu čuvaju najduže 7 dana posle prepiske. Ako se pojavi spam, Web3Forms besplatno nudi hCaptcha (deljeni ključ,
 uključuje se u njihovoj kontrolnoj tabli).
 
-## Šta još čeka
+## Stanje
 
-- **iPhone** — dugme stoji kao „Uskoro za iPhone” i isključeno je dok
-  aplikacija ne izađe za iOS; iOS verzija je u izradi.
+iPhone verzija je objavljena preko TestFlight-a (15.10.2026): na sajtu su
+dugme „Za iPhone” u heroju i izbor Android / iPhone u delu za preuzimanje, sa
+uputstvom i QR kodom za svaki telefon. Na iPhone-u je iPhone izabran sam.
 
 Strana O autoru je završena 25.09.2026: ime, fotografija i tekstovi
 (biografija, odakle ideja, uloga u aplikaciji) objavljeni su uz saglasnost

@@ -43,6 +43,11 @@ export default function Footer() {
                 <span>{IZDANJE.najstarijiAndroid} ili noviji</span>
               </li>
               <li className={stil.red}>
+                <span className={stil.polje}>iPhone</span>
+                <span className={stil.crtice} aria-hidden="true" />
+                <span>preko TestFlight-a</span>
+              </li>
+              <li className={stil.red}>
                 <span className={stil.polje}>Jezik</span>
                 <span className={stil.crtice} aria-hidden="true" />
                 <span>srpski</span>

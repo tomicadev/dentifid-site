@@ -2,6 +2,7 @@ import stil from "./Hero.module.css";
 import Dugme from "@/components/ui/Dugme";
 import Telefon from "@/components/ui/Telefon";
 import { Android, Apple, Zub } from "@/components/ui/Ikone";
+import { SIDRO_IPHONE } from "@/lib/izdanje";
 
 const DOKAZI = [
   { broj: "17", tekst: "pitanja do vaše procene" },
@@ -34,14 +35,12 @@ export default function Hero() {
             <Dugme href="/#preuzimanje" velicina="veliko" ikona={<Android />}>
               Preuzmi aplikaciju
             </Dugme>
-            <span className={stil.uskoro}>
-              <Dugme vrsta="sporedno" velicina="veliko" ikona={<Apple />} disabled>
-                Za iPhone
-              </Dugme>
-            </span>
+            <Dugme href={`/#${SIDRO_IPHONE}`} vrsta="sporedno" velicina="veliko" ikona={<Apple />}>
+              Za iPhone
+            </Dugme>
           </div>
 
-          <p className={stil.podatak}>Besplatno · Android 7.0+ · 63 MB</p>
+          <p className={stil.podatak}>Besplatno · Android 7.0+ · iPhone</p>
 
           <ul className={stil.dokazi}>
             {DOKAZI.map((dokaz) => (

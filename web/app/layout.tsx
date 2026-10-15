@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://dentifid.rs"),
   title: "DentifID — procena hitnosti stomatološkog problema",
   description:
-    "Kratak upitnik o problemu sa zubima daje procenu hitnosti i predlog specijaliste. Besplatna Android aplikacija na srpskom.",
+    "Kratak upitnik o problemu sa zubima daje procenu hitnosti i predlog specijaliste. Besplatna aplikacija za Android i iPhone, na srpskom.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: "https://dentifid.rs/",
     title: "DentifID — procena hitnosti stomatološkog problema",
     description:
-      "Kratak upitnik o problemu sa zubima daje procenu hitnosti i predlog specijaliste. Besplatna Android aplikacija na srpskom.",
+      "Kratak upitnik o problemu sa zubima daje procenu hitnosti i predlog specijaliste. Besplatna aplikacija za Android i iPhone, na srpskom.",
     images: [{ url: "/img/og-dentifid.png", width: 1024, height: 500 }],
   },
   twitter: { card: "summary_large_image" },

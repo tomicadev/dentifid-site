@@ -75,26 +75,6 @@
   margin-bottom: var(--r4);
 }
 
-.uskoro {
-  position: relative;
-}
-
-.uskoro::before {
-  content: "uskoro";
-  position: absolute;
-  z-index: 3;
-  top: -0.6rem;
-  right: 0.9rem;
-  padding: 0.1rem 0.45rem;
-  border-radius: var(--zaob-pilula);
-  background: var(--blaga);
-  color: var(--plava-na-blagoj);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 .podatak {
   color: var(--prigusen);
   font-size: var(--f-sitno);

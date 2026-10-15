@@ -9,7 +9,12 @@ export const IZDANJE = {
   adresaApk:
     "https://github.com/tomicadev/dentifid-releases/releases/latest/download/dentifid.apk",
   adresaIzdanja: "https://github.com/tomicadev/dentifid-releases",
+  /** iPhone verzija ide preko Apple-ove aplikacije TestFlight. */
+  adresaTestFlight: "https://testflight.apple.com/join/WYdNseJ8",
 } as const;
+
+/** Sidro sa kog dugme „Za iPhone” u heroju otvara uputstvo za iPhone. */
+export const SIDRO_IPHONE = "preuzimanje-iphone";
 
 export const KONTAKT = {
   korisnici: "dentifid.app@gmail.com",
