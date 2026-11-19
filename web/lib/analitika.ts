@@ -1,13 +1,15 @@
 /**
- * Google Analytics preko Google Tag Manager-a, samo uz pristanak posetioca.
+ * Google Analytics 4 (gtag.js), samo uz pristanak posetioca.
  *
- * Pre izbora Tag Manager se uopšte ne učitava: nema kolačića ni slanja podataka
- * Google-u. Kad posetilac prihvati, učitava se kontejner, a saglasnost za
+ * Pre izbora GA se uopšte ne učitava: nema kolačića ni slanja podataka
+ * Google-u. Kad posetilac prihvati, učitava se gtag.js, a saglasnost za
  * analitiku (Consent Mode v2) prelazi u „granted”. Saglasnosti za reklame
  * ostaju odbijene — sajt nema reklame.
  */
 
-export const GTM_ID = "GTM-5CK8X6KF";
+/** Merni ID GA4 svojstva „DentifID”. Ranije je ovde stajao Tag Manager
+ *  kontejner, koji je slao u strim unutar tuđeg svojstva (Valens). */
+export const GA_ID = "G-JQNGFX5WZL";
 
 /** Ključ u localStorage pod kojim se pamti izbor: „da” ili „ne”. */
 export const KLJUC_SAGLASNOSTI = "dentifid-saglasnost";
@@ -17,7 +19,7 @@ export const DOGADJAJ_PODESAVANJA = "dentifid:podesavanja-kolacica";
 
 /**
  * Izvršava se u <head> pre svega ostalog: postavlja podrazumevanu saglasnost i
- * odmah učitava Tag Manager ako je posetilac ranije pristao.
+ * odmah učitava analitiku ako je posetilac ranije pristao.
  */
 export const SKRIPTA_SAGLASNOSTI = `
 window.dataLayer = window.dataLayer || [];
@@ -34,9 +36,10 @@ window.dentifidUcitajAnalitiku = function () {
   window.dentifidAnalitika = true;
   gtag('consent', 'update', { analytics_storage: 'granted' });
   gtag('js', new Date());
+  gtag('config', '${GA_ID}');
   var s = document.createElement('script');
   s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtm.js?id=${GTM_ID}';
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_ID}';
   document.head.appendChild(s);
 };
 try {
