@@ -135,6 +135,16 @@
   transition: transform var(--brzo) var(--ulaz);
 }
 
+/* dugme koje izgleda kao veza (podešavanja kolačića) */
+.dugmeVeza {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .veza:hover::after,
 .veza:focus-visible::after {
   transform: scaleX(1);

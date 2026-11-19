@@ -1,0 +1,60 @@
+/* Traka za pristanak: staklena kartica pri dnu ekrana, iznad zuba u uglu. */
+.traka {
+  position: fixed;
+  z-index: 70;
+  left: 50%;
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  display: grid;
+  gap: var(--r4);
+  width: min(calc(100% - 1.5rem), 46rem);
+  padding: var(--r5);
+  border-radius: var(--zaob-velika);
+  border: 1px solid rgb(255 255 255 / 90%);
+  background: rgb(255 255 255 / 88%);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow:
+    0 2px 6px rgb(16 32 64 / 8%),
+    0 30px 60px -24px rgb(14 98 224 / 38%);
+  translate: -50% 0;
+}
+
+@media (min-width: 44rem) {
+  .traka {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--r5);
+    padding: var(--r5) var(--r5) var(--r5) var(--r6);
+  }
+}
+
+.naslov {
+  color: var(--tekst);
+  font-size: var(--f-sitno);
+  font-weight: 700;
+}
+
+.opis {
+  margin-top: 0.3rem;
+  color: var(--prigusen);
+  font-size: var(--f-najsitnije);
+  line-height: 1.55;
+}
+
+.opis a {
+  color: var(--plava-tekst);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.radnje {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--r2);
+}
+
+@media (min-width: 44rem) {
+  .radnje {
+    display: flex;
+  }
+}

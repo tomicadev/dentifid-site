@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import ZubPratilac from "@/components/pratilac/ZubPratilac";
+import Saglasnost from "@/components/layout/Saglasnost";
+import { SKRIPTA_SAGLASNOSTI } from "@/lib/analitika";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dentifid.rs"),
@@ -58,6 +61,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="sadrzaj">{children}</main>
         <Footer />
         <ZubPratilac />
+        <Saglasnost />
+        {/* Saglasnost za analitiku mora da bude postavljena pre Tag Manager-a. */}
+        <Script id="saglasnost" strategy="beforeInteractive">
+          {SKRIPTA_SAGLASNOSTI}
+        </Script>
       </body>
     </html>
   );

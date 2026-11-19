@@ -2,6 +2,7 @@ import Link from "next/link";
 import stil from "./Footer.module.css";
 import { IZDANJE, KONTAKT } from "@/lib/izdanje";
 import Cetkica3D from "@/components/ui/Cetkica3D";
+import { PodesavanjaKolacica } from "./Saglasnost";
 
 export default function Footer() {
   return (
@@ -78,6 +79,11 @@ export default function Footer() {
                 <a className={stil.veza} href={KONTAKT.politikaPrivatnosti} rel="noopener">
                   Politika privatnosti
                 </a>
+              </li>
+              <li className={stil.red}>
+                <span className={stil.polje}>Kolačići</span>
+                <span className={stil.crtice} aria-hidden="true" />
+                <PodesavanjaKolacica className={`${stil.veza} ${stil.dugmeVeza}`} />
               </li>
               <li className={stil.red}>
                 <span className={stil.polje}>Bezbednost naloga</span>
